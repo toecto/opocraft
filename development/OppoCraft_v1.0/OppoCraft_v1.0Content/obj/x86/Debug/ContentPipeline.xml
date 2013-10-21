@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb</Output>
-      <Time>2013-10-20T18:16:09.7924177-04:00</Time>
+      <Output>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb</Output>
+      <Time>2013-10-21T12:46:42.3703697-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -16,10 +16,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

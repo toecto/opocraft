@@ -11,8 +11,7 @@ namespace OppoCraft
 
         public GridCoords(int x, int y)
             : base(x, y)
-        {
-         //test2
+        {        
    
         }
 

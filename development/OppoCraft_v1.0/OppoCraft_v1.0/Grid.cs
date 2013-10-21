@@ -8,6 +8,7 @@ namespace OppoCraft
     public class Grid
     {
         Game1 theGame;
+        
         public Coordinates gridSize;
         public Coordinates cellSize;
         public int[,] gridValues;
@@ -16,9 +17,9 @@ namespace OppoCraft
         {
             this.theGame = g;
             
-            this.cellSize = new Coordinates(40, 40);
-            this.gridSize = new Coordinates(c, r);
-            this.gridValues = new int[c, r];
+            this.cellSize = new Coordinates(40, 40); //move to game
+            this.gridSize = new Coordinates(c, r); //keep values in game object (create properties in Game1)
+            this.gridValues = new int[c, r]; // keep values in game object (create properties in Game1)
             this.ResetGridValues();
         }
 
@@ -34,6 +35,12 @@ namespace OppoCraft
         {
             return new GridCoords((int)(worldCoords.X / this.cellSize.X), (int)(worldCoords.Y / this.cellSize.Y));
         }
+
+        /*
+         * To Do: Method to "draw" rectangle onto the Grid
+         * three params: position, size, drawValue
+         */
+        
 
         //sets the Grid cell values all to zero
         public void ResetGridValues()

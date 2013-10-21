@@ -97,6 +97,7 @@ namespace OppoCraft
             // TODO: Add your drawing code here
             this.spriteBatch.Begin();            
             this.DrawText();
+
             this.spriteBatch.End();
 
             base.Draw(gameTime);

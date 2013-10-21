@@ -5,3 +5,10 @@ C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v
 C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\OppoCraft_v1.0.exe
 C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\OppoCraft_v1.0.pdb
 C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\OppoCraft_v1.0.exe
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\OppoCraft_v1.0.pdb
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft_v1.0.exe
+C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft_v1.0.pdb
