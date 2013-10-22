@@ -1,1 +1,8 @@
 # git ignore file
+*.suo
+obj/
+*.log
+[Bb]in/
+Thumbs.db
+*.cachefile
+*.user
