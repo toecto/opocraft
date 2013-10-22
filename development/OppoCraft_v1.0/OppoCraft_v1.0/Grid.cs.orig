@@ -63,9 +63,11 @@ namespace OppoCraft
         //thank you from Jeff
         //Tracy back 
         //Mitchael in and out
-//Tracy is still here 
-//Test from Xu
-// test merging
+<<<<<<< HEAD
+        //Tracy is still here 
 
+=======
+        //Test from Xu
+>>>>>>> b4d1547b61881371344dbbfe2664c9bceaa63e49
     }
 }
