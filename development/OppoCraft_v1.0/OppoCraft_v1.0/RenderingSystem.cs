@@ -12,7 +12,7 @@ namespace OppoCraft
         // Render squeezing Coeffecient: equal width, 60% height
        public float[] renderCoEff = new float[] { 1.0f, 0.6f };
 
-       public Game1 theGame;       
+       public Game1 theGame;
 
        public RenderSystem(Game1 g)
        {
@@ -30,6 +30,8 @@ namespace OppoCraft
         {
             return new WorldCoords((int)((screen.X + scroll.X) / renderCoEff[0]), (int)((screen.Y + scroll.Y) / renderCoEff[1]));
         }             
+
+       
 
     }
 }

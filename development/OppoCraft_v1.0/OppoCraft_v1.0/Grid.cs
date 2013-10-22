@@ -9,17 +9,15 @@ namespace OppoCraft
     {
         Game1 theGame;
         
-        public Coordinates gridSize;
-        public Coordinates cellSize;
+        public Coordinates gridSize;        
         public int[,] gridValues;
 
-        public Grid(Game1 g, int c, int r)
+        public Grid(Game1 g)
         {
             this.theGame = g;
-            
-            this.cellSize = new Coordinates(40, 40); //move to game
-            this.gridSize = new Coordinates(c, r); //keep values in game object (create properties in Game1)
-            this.gridValues = new int[c, r]; // keep values in game object (create properties in Game1)
+
+            this.gridSize = new Coordinates(this.theGame.worldMapSize.X / this.theGame.cellSize.X, this.theGame.worldMapSize.Y / this.theGame.cellSize.Y);
+            this.gridValues = new int[this.gridSize.X, this.gridSize.X];
             this.ResetGridValues();
         }
 
@@ -27,32 +25,42 @@ namespace OppoCraft
         //returns new WorldCoords based on Grid coordinates
         public WorldCoords getWorldCoords(GridCoords gc)
         {
-            return new WorldCoords(gc.X * this.cellSize.X, gc.Y * this.cellSize.Y);
+            return new WorldCoords(gc.X * this.theGame.cellSize.X, gc.Y * this.theGame.cellSize.Y);
         }
 
         //returns new Grid with coordinates based on WorldCoords parameter
         public GridCoords getGridCoords(WorldCoords worldCoords)
         {
-            return new GridCoords((int)(worldCoords.X / this.cellSize.X), (int)(worldCoords.Y / this.cellSize.Y));
+            return new GridCoords((int)(worldCoords.X / this.theGame.cellSize.X), (int)(worldCoords.Y / this.theGame.cellSize.Y));
         }
 
         /*
          * To Do: Method to "draw" rectangle onto the Grid
          * three params: position, size, drawValue
          */
-        
+
+        public void fillRectValues(GridCoords p, Coordinates s, int v)
+        {
+            for (int x = p.X; x < s.X + p.X; x++)
+            {
+                for (int y = p.Y; y < s.Y + p.Y; y++)
+                {
+                    this.gridValues[x, y] = v;
+                }
+            }
+
+        }
+
 
         //sets the Grid cell values all to zero
         public void ResetGridValues()
         {
-            for (int c = 0; c < this.gridSize.X; c++)
-            {
-                for (int r = 0; r < this.gridSize.Y; r++)
-                {
-                    this.gridValues[c, r] = 0;
-                }
-            }
+            this.fillRectValues(new GridCoords(0, 0), this.gridSize, -1);
+            this.fillRectValues(new GridCoords(1, 1), new Coordinates(this.gridSize.X - 2, this.gridSize.Y - 2), 0);
         }
+        
+        //test from Tracy
+        //thank you from Jeff
 
     }
 }
