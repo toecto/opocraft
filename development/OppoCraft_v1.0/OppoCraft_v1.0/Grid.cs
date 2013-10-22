@@ -58,6 +58,8 @@ namespace OppoCraft
             this.fillRectValues(new GridCoords(0, 0), this.gridSize, -1);
             this.fillRectValues(new GridCoords(1, 1), new Coordinates(this.gridSize.X - 2, this.gridSize.Y - 2), 0);
         }
+        
+        //test from Tracy
 
     }
 }
