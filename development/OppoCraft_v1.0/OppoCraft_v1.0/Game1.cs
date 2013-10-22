@@ -13,7 +13,6 @@ namespace OppoCraft
 {
     /// <summary>
     /// This is the main type for your game
-    /// Testing Git
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
@@ -22,16 +21,27 @@ namespace OppoCraft
         SpriteFont font;
         RenderSystem renderSystem;
 
+        //Cells, Map, and Coordinate Properties
+        public Coordinates cellSize;
+        public Coordinates worldMapSize;
+        public Grid theGrid;
+
+
         public Game1()
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.PreferredBackBufferWidth = 1000;
-            this.graphics.PreferredBackBufferHeight = 600;           
-            this.Content.RootDirectory = "Content";            
+            this.graphics.PreferredBackBufferHeight = 600;
+            this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.Window.AllowUserResizing = true;
 
+            this.cellSize = new Coordinates(40, 40);
+            this.worldMapSize = new Coordinates(10240, 10240);
+
             this.renderSystem = new RenderSystem(this);
+            this.theGrid = new Grid(this);
+            
         }
 
         /// <summary>
