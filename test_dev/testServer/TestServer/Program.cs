@@ -15,7 +15,7 @@ namespace TestServer
 
         static void Main(string[] args)
         {
-            TcpListener serverSocket = new TcpListener(new IPAddress(new byte[]{127,0,0,1}),8888);
+            TcpListener serverSocket = new TcpListener(new IPAddress(new byte[]{0,0,0,0}),8888);
             TcpClient clientSocket = default(TcpClient);
             int counter = 0;
 
