@@ -14,7 +14,7 @@ namespace OppoCraft
 
        public Game1 theGame;
        GraphicsDeviceManager graphics;
-       public SpriteBatch spriteBatch;
+       SpriteBatch spriteBatch;
        SpriteFont font;
 
        public RenderSystem(Game1 g)

@@ -25,7 +25,7 @@ namespace OppoCraft
         //returns new WorldCoords based on Grid coordinates
         public WorldCoords getWorldCoords(GridCoords gc)
         {
-            return new WorldCoords(gc.X * this.theGame.cellSize.X + this.theGame.cellSize.X, gc.Y * this.theGame.cellSize.Y + this.theGame.cellSize.Y);
+            return new WorldCoords(gc.X * this.theGame.cellSize.X + this.theGame.cellSize.X / 2, gc.Y * this.theGame.cellSize.Y + this.theGame.cellSize.Y / 2);
         }
 
         //returns new Grid with coordinates based on WorldCoords parameter
