@@ -15,10 +15,7 @@ namespace OppoCraft
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
-    {
-        GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
-        SpriteFont font;
+    {        
         RenderSystem renderSystem;
 
         //Cells, Map, and Coordinate Properties
@@ -26,20 +23,16 @@ namespace OppoCraft
         public Coordinates worldMapSize;
         public Grid theGrid;
 
-
         public Game1()
-        {
-            this.graphics = new GraphicsDeviceManager(this);
-            this.graphics.PreferredBackBufferWidth = 1000;
-            this.graphics.PreferredBackBufferHeight = 600;
+        {            
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            this.Window.AllowUserResizing = true;
 
             this.cellSize = new Coordinates(40, 40);
             this.worldMapSize = new Coordinates(10240, 10240);
 
             this.renderSystem = new RenderSystem(this);
+
             this.theGrid = new Grid(this);
             
         }
@@ -62,12 +55,8 @@ namespace OppoCraft
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            this.spriteBatch = new SpriteBatch(GraphicsDevice);
-            this.font = this.Content.Load<SpriteFont>("myFont");
-
-            // TODO: use this.Content to load your game content here
+        {                       
+            this.renderSystem.LoadContent();
         }
 
 
@@ -77,7 +66,7 @@ namespace OppoCraft
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
 
         /// <summary>
@@ -101,23 +90,11 @@ namespace OppoCraft
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
-            this.GraphicsDevice.Clear(new Color(16, 16, 16));
-
-            // TODO: Add your drawing code here
-            this.spriteBatch.Begin();            
-            this.DrawText();
-
-            this.spriteBatch.End();
+        {         
+            this.renderSystem.Render(gameTime);
 
             base.Draw(gameTime);
-        }
-
-
-        private void DrawText()
-        {
-            this.spriteBatch.DrawString(font, "Some Stats", new Vector2(20, 45), new Color(225, 225, 225));
-        }
+        }       
 
     }
 }

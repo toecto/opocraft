@@ -25,7 +25,7 @@ namespace OppoCraft
         //returns new WorldCoords based on Grid coordinates
         public WorldCoords getWorldCoords(GridCoords gc)
         {
-            return new WorldCoords(gc.X * this.theGame.cellSize.X, gc.Y * this.theGame.cellSize.Y);
+            return new WorldCoords(gc.X * this.theGame.cellSize.X + this.theGame.cellSize.X, gc.Y * this.theGame.cellSize.Y + this.theGame.cellSize.Y);
         }
 
         //returns new Grid with coordinates based on WorldCoords parameter
@@ -34,11 +34,7 @@ namespace OppoCraft
             return new GridCoords((int)(worldCoords.X / this.theGame.cellSize.X), (int)(worldCoords.Y / this.theGame.cellSize.Y));
         }
 
-        /*
-         * To Do: Method to "draw" rectangle onto the Grid
-         * three params: position, size, drawValue
-         */
-
+        //returns new Grid with coordinates based on WorldCoords parameter
         public void fillRectValues(GridCoords p, Coordinates s, int v)
         {
             for (int x = p.X; x < s.X + p.X; x++)
@@ -48,9 +44,7 @@ namespace OppoCraft
                     this.gridValues[x, y] = v;
                 }
             }
-
         }
-
 
         //sets the Grid cell values all to zero
         public void ResetGridValues()
@@ -59,18 +53,6 @@ namespace OppoCraft
             this.fillRectValues(new GridCoords(1, 1), new Coordinates(this.gridSize.X - 2, this.gridSize.Y - 2), 0);
         }
         
-        //test from Tracy
-        //thank you from Jeff
-        //Tracy back 
-        //Mitchael in and out
-//Tracy is still here 
-//Test from Xu
-//Tracy is still here 
-//Test from Xu
-// test merging
-        // another test of merging
-//test tracy merging
-//Message from sony 
 
     }
 }

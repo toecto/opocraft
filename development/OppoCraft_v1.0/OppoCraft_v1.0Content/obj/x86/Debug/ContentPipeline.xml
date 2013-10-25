@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb</Output>
-      <Time>2013-10-22T14:13:25.1570606-04:00</Time>
+      <Output>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb</Output>
+      <Time>2013-10-21T12:46:42.3703697-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -16,10 +16,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -48,7 +48,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2013-10-22T14:38:02.1748382-04:00</Value>
+        <Value>2013-09-27T19:15:53.3407552-04:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

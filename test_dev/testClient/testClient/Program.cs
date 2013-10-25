@@ -11,6 +11,8 @@ namespace testClient
     {
         static TcpClient clientSocket = new TcpClient();
         static NetworkStream serverStream = default(NetworkStream);
+        
+        
 
         static void Main(string[] args)
         {
