@@ -15,33 +15,22 @@ namespace TestServer
 
         static void Main(string[] args)
         {
-            TcpListener serverSocket = new TcpListener(new IPAddress(new byte[]{0,0,0,0}),8888);
+            TcpListener serverSocket = new TcpListener(IPAddress.Parse("0.0.0.0"), 8888);
             TcpClient clientSocket = default(TcpClient);
             int counter = 0;
 
             serverSocket.Start();
-            Console.WriteLine("Chat Server Started ....");
+            Console.WriteLine("Server Started ....");
             counter = 0;
             while ((true))
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
+                clientsList.Add(counter.ToString(), clientSocket);
 
-                byte[] bytesFrom = new byte[10025];
-                string dataFromClient = null;
-
-                NetworkStream networkStream = clientSocket.GetStream();
-                networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-                dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-
-                clientsList.Add(dataFromClient, clientSocket);
-
-                broadcast(dataFromClient + " Joined ", dataFromClient, false);
-
-                Console.WriteLine(dataFromClient + " Joined chat room ");
+                Console.WriteLine("Client " + counter + " joined");
                 handleClinet client = new handleClinet();
-                client.startClient(clientSocket, dataFromClient, clientsList);
+                client.startClient(clientSocket, counter.ToString());
             }
 
             clientSocket.Close();
@@ -50,26 +39,19 @@ namespace TestServer
             Console.ReadLine();
         }
 
-        public static void broadcast(string msg, string uName, bool flag)
+        public static void broadcast(string msg, string client, bool toAll)
         {
             foreach (DictionaryEntry Item in clientsList)
             {
-                TcpClient broadcastSocket;
-                broadcastSocket = (TcpClient)Item.Value;
-                NetworkStream broadcastStream = broadcastSocket.GetStream();
-                Byte[] broadcastBytes = null;
-
-                if (flag == true)
+                if(toAll || client != Item.Key)
                 {
-                    broadcastBytes = Encoding.ASCII.GetBytes(uName + " says : " + msg);
-                }
-                else
-                {
-                    broadcastBytes = Encoding.ASCII.GetBytes(msg);
-                }
+                    TcpClient broadcastSocket = (TcpClient)Item.Value;
+                    NetworkStream broadcastStream = broadcastSocket.GetStream();
+                    Byte[] broadcastBytes = Encoding.ASCII.GetBytes(msg);
 
-                broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
-                broadcastStream.Flush();
+                    broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
+                    broadcastStream.Flush();
+                }
             }
         }  //end broadcast function
     }//end Main class
@@ -79,13 +61,12 @@ namespace TestServer
     {
         TcpClient clientSocket;
         string clNo;
-        Hashtable clientsList;
 
-        public void startClient(TcpClient inClientSocket, string clineNo, Hashtable cList)
+        public void startClient(TcpClient inClientSocket, string clineNo)
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
-            this.clientsList = cList;
+
             Thread ctThread = new Thread(doChat);
             ctThread.Start();
         }
@@ -95,24 +76,23 @@ namespace TestServer
             int requestCount = 0;
             byte[] bytesFrom;
             string dataFromClient = null;
-            string rCount = null;
+            
             requestCount = 0;
             int available;
+            NetworkStream networkStream = clientSocket.GetStream();
             while ((true))
             {
                 try
                 {
                     requestCount = requestCount + 1;
-                    NetworkStream networkStream = clientSocket.GetStream();
+                    
                     available = (int)clientSocket.Available;
                     if (available>0)
                     {
                         bytesFrom = new byte[(int)clientSocket.Available];
                         networkStream.Read(bytesFrom, 0, (int)clientSocket.Available);
                         dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                        dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                        Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
-                        rCount = Convert.ToString(requestCount);
+                        Console.WriteLine("From client " + clNo + ": " + dataFromClient);
                         Program.broadcast(dataFromClient, clNo, true);
                     }
                 }
