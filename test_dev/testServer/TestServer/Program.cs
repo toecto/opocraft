@@ -12,7 +12,7 @@ namespace TestServer
     class Program
     {
         public static Hashtable clientsList = new Hashtable();
-
+        public static ArrayList toRemove = new ArrayList(2);
         static void Main(string[] args)
         {
             TcpListener serverSocket = new TcpListener(IPAddress.Parse("0.0.0.0"), 8888);
@@ -26,11 +26,11 @@ namespace TestServer
             {
                 counter += 1;
                 clientSocket = serverSocket.AcceptTcpClient();
-                clientsList.Add(counter.ToString(), clientSocket);
+                handleClinet client = new handleClinet(clientSocket, counter.ToString());
+                clientsList.Add(counter.ToString(), client);
 
                 Console.WriteLine("Client " + counter + " joined");
-                handleClinet client = new handleClinet();
-                client.startClient(clientSocket, counter.ToString());
+                
             }
 
             clientSocket.Close();
@@ -39,65 +39,88 @@ namespace TestServer
             Console.ReadLine();
         }
 
-        public static void broadcast(string msg, string client, bool toAll)
+        public static void broadcast(byte[] msg, string sourceClientNo, bool toAll)
         {
+            handleClinet client=null;
+            NetworkStream broadcastStream;
             foreach (DictionaryEntry Item in clientsList)
             {
-                if(toAll || client != Item.Key)
+                client = (handleClinet)Item.Value;
+                try
                 {
-                    TcpClient broadcastSocket = (TcpClient)Item.Value;
-                    NetworkStream broadcastStream = broadcastSocket.GetStream();
-                    Byte[] broadcastBytes = Encoding.ASCII.GetBytes(msg);
-
-                    broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);
-                    broadcastStream.Flush();
+                    if (toAll || sourceClientNo != Item.Key.ToString())
+                    {
+                        broadcastStream = client.clientSocket.GetStream();
+                        broadcastStream.Write(msg, 0, msg.Length);
+                        broadcastStream.Flush();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    client.Stop();
+                    toRemove.Add(client.clientNo);
                 }
             }
+
+            foreach (string Item in toRemove)
+            {
+                clientsList.Remove(Item);
+                Console.WriteLine(Item + " Removed");
+            }
+            toRemove.Clear();
         }  //end broadcast function
     }//end Main class
 
 
     public class handleClinet
     {
-        TcpClient clientSocket;
-        string clNo;
+        public TcpClient clientSocket;
+        public string clientNo;
+        Thread ctThread;
+        bool active = true;
 
-        public void startClient(TcpClient inClientSocket, string clineNo)
+        public handleClinet(TcpClient inClientSocket, string clientNo)
         {
             this.clientSocket = inClientSocket;
-            this.clNo = clineNo;
-
-            Thread ctThread = new Thread(doChat);
+            this.clientNo = clientNo;
+            ctThread = new Thread(this.Listening);
             ctThread.Start();
         }
 
-        private void doChat()
+        public void Stop()
+        {
+            this.active = false;
+            clientSocket.Close();
+            ctThread.Join();
+        }
+
+        private void Listening()
         {
             int requestCount = 0;
             byte[] bytesFrom;
-            string dataFromClient = null;
             
             requestCount = 0;
             int available;
             NetworkStream networkStream = clientSocket.GetStream();
-            while ((true))
+            while (this.active)
             {
                 try
                 {
                     requestCount = requestCount + 1;
                     
-                    available = (int)clientSocket.Available;
+                    available = clientSocket.Available;
                     if (available>0)
                     {
-                        bytesFrom = new byte[(int)clientSocket.Available];
-                        networkStream.Read(bytesFrom, 0, (int)clientSocket.Available);
-                        dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                        Console.WriteLine("From client " + clNo + ": " + dataFromClient);
-                        Program.broadcast(dataFromClient, clNo, true);
+                        available=clientSocket.Available;
+                        bytesFrom = new byte[available];
+                        networkStream.Read(bytesFrom, 0, available);
+                        Console.WriteLine("From client " + clientNo + ": " + bytesFrom.Length +" Bytes");
+                        Program.broadcast(bytesFrom, clientNo, true);
                     }
                 }
                 catch (Exception ex)
                 {
+                    this.Stop();
                     Console.WriteLine(ex.ToString());
                 }
             }//end while
