@@ -11,9 +11,9 @@ namespace testClient
     {
         static void Main(string[] args)
         {
-            //Console.Write("Input server: ");
-            string server = "127.0.0.1";// Console.ReadLine();
-
+            Console.Write("Input server (Empty for localhost): ");
+            string server = Console.ReadLine();
+            if (server == "") server = "127.0.0.1";
             TcpMessageClient client = new TcpMessageClient(server,8888);
             client.Connect();
             client.onMessage += readMessages;
