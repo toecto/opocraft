@@ -24,7 +24,7 @@ namespace OppoCraft
         public Grid theGrid;
 
         //debug test
-        public DebugConsole debugger;
+        public Debugger debugger;
         double delayTime = 0;
         int counter = 0;
 
@@ -49,7 +49,7 @@ namespace OppoCraft
 
             this.theGrid = new Grid(this);
 
-            this.debugger = new DebugConsole(this);
+            this.debugger = new Debugger(this);
             
         }
 

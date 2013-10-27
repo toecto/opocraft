@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    public class DebugConsole
+    public class Debugger
     {
         Game1 theGame;
 
@@ -15,7 +15,7 @@ namespace OppoCraft
 
         public int scrollRow;
 
-        public DebugConsole(Game1 g)
+        public Debugger(Game1 g)
         {
             this.theGame = g;
             this.msgList = new LinkedList<string>();
