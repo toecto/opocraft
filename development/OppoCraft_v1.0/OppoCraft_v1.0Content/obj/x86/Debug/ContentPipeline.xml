@@ -7,8 +7,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb</Output>
-      <Time>2013-10-22T14:13:35.2951243-04:00</Time>
+      <Output>C:\Users\Electrolit3\Documents\GitOppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb</Output>
+      <Time>2013-10-29T17:28:59.3846113-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -16,10 +16,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\</RootDirectory>
-      <LoggerRootDirectory>D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Electrolit3\Documents\GitOppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Electrolit3\Documents\GitOppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Electrolit3\Documents\GitOppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Electrolit3\Documents\GitOppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -48,7 +48,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2013-10-22T14:38:00.7064559-04:00</Value>
+        <Value>2013-10-29T17:34:16.0517236-04:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
