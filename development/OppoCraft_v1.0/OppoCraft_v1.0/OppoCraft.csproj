@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates.cs" />
+    <Compile Include="Debugger.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="WorldCoords.cs" />
     <Compile Include="GridCoords.cs" />
