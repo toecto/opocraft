@@ -65,13 +65,11 @@ namespace OppoCraft
         //Mitchael in and out
 //Tracy is still here 
 //Test from Xu
-<<<<<<< HEAD
-//test
-=======
 // test merging
+<<<<<<< HEAD
         // another test of merging
+=======
 //test tracy merging
-
->>>>>>> 867e0788cc5062535f92b58a916307c1b7f7a8e1
+>>>>>>> 2a24b61f95a13be3c9f34f0ef077d32989a8942d
     }
 }

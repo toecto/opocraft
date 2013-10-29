@@ -4,5 +4,7 @@ obj/
 *.log
 [Bb]in/
 Thumbs.db
+*.cache
 *.cachefile
 *.user
+
