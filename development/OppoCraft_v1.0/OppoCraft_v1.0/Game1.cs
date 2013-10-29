@@ -16,17 +16,31 @@ namespace OppoCraft
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {        
-        RenderSystem renderSystem;
+        public RenderSystem renderSystem;
 
         //Cells, Map, and Coordinate Properties
         public Coordinates cellSize;
         public Coordinates worldMapSize;
         public Grid theGrid;
 
+        //debug test
+        public Debugger debugger;
+        double delayTime = 0;
+        int counter = 0;
+
+        //Mouse Movement testing
+        public MouseState mouseState;
+        public MouseState prevMouseState;
+        int scrollValue = 0;
+
         public Game1()
         {            
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
+
+            //Mouse Scrolling testing
+            this.mouseState = Mouse.GetState();
+            this.prevMouseState = mouseState;
 
             this.cellSize = new Coordinates(40, 40);
             this.worldMapSize = new Coordinates(10240, 10240);
@@ -34,6 +48,8 @@ namespace OppoCraft
             this.renderSystem = new RenderSystem(this);
 
             this.theGrid = new Grid(this);
+
+            this.debugger = new Debugger(this);
             
         }
 
@@ -57,6 +73,7 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.renderSystem.LoadContent();
+            
         }
 
 
@@ -81,6 +98,24 @@ namespace OppoCraft
                 this.Exit();
 
             // TODO: Add your update logic here
+            this.mouseState = Mouse.GetState();
+            this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
+            this.prevMouseState = this.mouseState;
+
+            this.debugger.scrollRow = scrollValue;
+
+
+            if (this.delayTime >= 1000)
+            {
+                this.debugger.AddMessage("game time = " + this.delayTime.ToString() + " Row: " + counter);
+                this.delayTime = 0;
+                counter++;
+            }
+            else
+            {
+                this.delayTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+            }
+            
 
             base.Update(gameTime);
         }

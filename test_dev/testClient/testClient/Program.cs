@@ -9,27 +9,22 @@ namespace testClient
 {
     class Program
     {
-        static TcpClient clientSocket = new TcpClient();
-        static NetworkStream serverStream = default(NetworkStream);
-        
-        
-
         static void Main(string[] args)
         {
-            Console.Write("Input server: ");
-            string server=Console.ReadLine();
-            Console.Write("Input name: ");
-            string name = Console.ReadLine();
-            connect(name, server);
+            Console.Write("Input server (Empty for localhost): ");
+            string server = Console.ReadLine();
+            if (server == "") server = "127.0.0.1";
+            TcpMessageClient client = new TcpMessageClient(server,8888);
+            client.Connect();
+            client.onMessage += readMessages;
             while (true)
             {
                 Console.Write("#");
                 string msg = Console.ReadLine();
-                sendMessage(msg);
+                client.sendMessage(Encoding.ASCII.GetBytes(msg));
+                
                 if (msg == "exit")
                 {
-                    clientSocket.Close();
-                    serverStream.Close();
                     break;
                 }
             }
@@ -37,45 +32,19 @@ namespace testClient
             Console.ReadLine();
         }
 
-        static void sendMessage(string msg)
+
+        public static void readMessages(TcpMessageClient client)
         {
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(msg + "$");
-            serverStream.Write(outStream, 0, outStream.Length);
-            serverStream.Flush();
-        }
-
-
-        static void connect(string name, string server)
-        {
-            Console.WriteLine("Conected to Chat Server ...");
-            clientSocket.Connect(server, 8888);
-            serverStream = clientSocket.GetStream();
-
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(name + "$");
-            serverStream.Write(outStream, 0, outStream.Length);
-            serverStream.Flush();
-
-            Thread ctThread = new Thread(Program.getMessage);
-            ctThread.Start();
-        }
-
-        static void getMessage()
-        {
-            while (true)
-            {
-                serverStream = clientSocket.GetStream();
-                int buffSize = 0;
-
-                buffSize = clientSocket.Available;
-                
-                if (buffSize > 0)
+            if (client.Available > 0)
+            { 
+                Byte[] message;
+                while( (message=client.getMessage()) != null)
                 {
-                    byte[] inStream = new byte[buffSize];
-                    serverStream.Read(inStream, 0, buffSize);
-                    string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                    Console.WriteLine(buffSize+">"+returndata+"<");
+                    Console.WriteLine(System.Text.Encoding.Default.GetString(message));
                 }
             }
+
         }
+
     }
 }
