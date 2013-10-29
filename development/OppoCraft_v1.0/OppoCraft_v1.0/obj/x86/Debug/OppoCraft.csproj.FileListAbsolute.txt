@@ -19,3 +19,10 @@ C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug
 C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft_v1.0.exe
 C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft_v1.0.pdb
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\Content\myFont.xnb
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\OppoCraft_v1.0.exe
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\bin\x86\Debug\OppoCraft_v1.0.pdb
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft.csprojResolveAssemblyReference.cache
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft_v1.0.exe
+D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0\obj\x86\Debug\OppoCraft_v1.0.pdb
