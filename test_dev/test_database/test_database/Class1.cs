@@ -8,6 +8,7 @@ namespace test_database
 {
     class Console
     {
-
+        Console console = new Console();
+        test_database.Pr
     }
 }

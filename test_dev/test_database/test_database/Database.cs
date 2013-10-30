@@ -19,6 +19,7 @@ public void CreateMySqlCommand()
        sqlCeCom = new SqlCeCommand("SELECT * FROM BOOKS");
        SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlCeCom);
        adapter.Fill(dt);
+       Console.WriteLine(adapter);
   }
 }
     
