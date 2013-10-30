@@ -1,5 +1,0 @@
-C:\Users\Freens77\Documents\MyProjects\OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Freens77\Documents\MyProjects\git_OppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Comp project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\OppoCraft_v1.0Content.contentprojResolveAssemblyReference.cache
-D:\My Program\Centennial College Semester 4\comp 231\COMP231Project\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\OppoCraft_v1.0Content.contentprojResolveAssemblyReference.cache
-C:\Users\Electrolit3\Documents\GitOppoCraft\opocraft\development\OppoCraft_v1.0\OppoCraft_v1.0Content\obj\x86\Debug\ResolveAssemblyReference.cache
