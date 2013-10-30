@@ -10,7 +10,7 @@ namespace test_database
         static void Main(string[] args)
         {
             Console.WriteLine("It works!");
-        }
+        }//Data Source=|DataDirectory|\MyDatabase.sdf
 
     }
 }
