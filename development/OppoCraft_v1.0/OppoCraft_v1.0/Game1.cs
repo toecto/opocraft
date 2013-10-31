@@ -107,7 +107,7 @@ namespace OppoCraft
 
             if (this.delayTime >= 1000)
             {
-                this.debugger.AddMessage("game time = " + gameTime.TotalGameTime.ToString());
+                this.debugger.AddMessage("game time: " + gameTime.TotalGameTime.ToString());
                 this.delayTime = 0;
                 counter++;
             }
