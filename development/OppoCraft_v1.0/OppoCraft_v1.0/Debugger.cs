@@ -20,12 +20,12 @@ namespace OppoCraft
             this.theGame = g;
             this.msgList = new LinkedList<string>();
             this.rowSize = 12;
-            this.scrollRow = 0; 
+            this.scrollRow = 0;
         }
 
         public void AddMessage(string msg)
         {
-            this.msgList.AddLast(msg);
+            this.msgList.AddFirst(msg);
         }
 
         public void RenderMessages()
