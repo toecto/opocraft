@@ -77,13 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="MyDatabaseDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MyDatabaseDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -93,28 +87,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MyDatabase.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="MyDatabase.sdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="MyDatabaseDataSet.xsc">
-      <DependentUpon>MyDatabaseDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="MyDatabaseDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>MyDatabaseDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="MyDatabaseDataSet.xss">
-      <DependentUpon>MyDatabaseDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="test_database_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

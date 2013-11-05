@@ -7,20 +7,51 @@ using System.Data;
 
 
 public class Database
-    {   
-        SqlCeConnection sqlConnection1 = new SqlCeConnection();
-        SqlCeCommand sqlCeCom = new SqlCeCommand(); 
-        DataTable dt = new DataTable();
+{   
+    public SqlCeConnection Connection;
+    public Exception exeption;
 
-public void CreateMySqlCommand() 
-  {
-    sqlConnection1 = new SqlCeConnection("DataSource = C:\\Users\\Megan\\Documents\\MyDatabase.sdf");   
-        sqlConnection1.Open();
-       sqlCeCom = new SqlCeCommand("SELECT * FROM BOOKS");
-       SqlCeDataAdapter adapter = new SqlCeDataAdapter(sqlCeCom);
-       adapter.Fill(dt);
-       Console.WriteLine(adapter);
-  }
+    public Database(string connectionString)
+    {
+        this.Connection=new SqlCeConnection(connectionString);
+        this.Connection.Open();
+    }
+
+    public void Close()
+    {
+        this.Connection.Close();
+    }
+
+    public DataTable Query(string Query)
+    {
+        SqlCeCommand SqlCommand = new SqlCeCommand(Query, this.Connection);
+        SqlCeDataAdapter Adapter = new SqlCeDataAdapter(SqlCommand);
+        
+        DataTable Results = new DataTable();
+        try
+        {
+            Adapter.Fill(Results);
+        }
+        catch (Exception e)
+        {
+            this.exeption = e;
+            return null;
+        }
+        return Results;
+    }
+
+    public void NonQuery(string Query)
+    {
+        SqlCeCommand SqlCommand = new SqlCeCommand(Query);
+        SqlCommand.ExecuteNonQuery();
+    }
+
+    public void ScalarQuery(string Query)
+    {
+        SqlCeCommand SqlCommand = new SqlCeCommand(Query);
+        SqlCommand.ExecuteScalar();
+    }
+
 }
     
 
