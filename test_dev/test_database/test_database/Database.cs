@@ -51,6 +51,7 @@ public class Database
         SqlCeCommand SqlCommand = new SqlCeCommand(Query);
         SqlCommand.ExecuteScalar();
          // to get a single value from the Query
+        return;
     }
 
 }
