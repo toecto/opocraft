@@ -8,6 +8,7 @@ namespace OppoCraft
     public class Grid
     {
         Game1 theGame;
+        public PathFinder thePathFinder;
         
         public Coordinates gridSize;        
         public int[,] gridValues;
@@ -15,12 +16,18 @@ namespace OppoCraft
         public Grid(Game1 g)
         {
             this.theGame = g;
+            this.thePathFinder = new PathFinder(this, theGame);
 
             this.gridSize = new Coordinates(this.theGame.worldMapSize.X / this.theGame.cellSize.X, this.theGame.worldMapSize.Y / this.theGame.cellSize.Y);
             this.gridValues = new int[this.gridSize.X, this.gridSize.X];
             this.ResetGridValues();
         }
 
+        //returns the int value for the coordiante on the grid
+        public int getGridValue(GridCoords gc)
+        {
+            return this.gridValues[gc.X, gc.Y];
+        }
 
         //returns new WorldCoords based on Grid coordinates
         public WorldCoords getWorldCoords(GridCoords gc)
