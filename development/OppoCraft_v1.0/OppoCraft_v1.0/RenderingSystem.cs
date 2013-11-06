@@ -16,6 +16,7 @@ namespace OppoCraft
        GraphicsDeviceManager graphics;
        SpriteBatch spriteBatch;
        SpriteFont font;
+       Texture2D primRect;
 
        public RenderSystem(Game1 g)
        {
@@ -32,6 +33,8 @@ namespace OppoCraft
            // Create a new SpriteBatch, which can be used to draw textures.
            this.spriteBatch = new SpriteBatch(this.theGame.GraphicsDevice);
 
+           primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
+
            // Load the font from xml file
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
        }
@@ -39,12 +42,44 @@ namespace OppoCraft
 
        public void Render(GameTime gameTime)
        {
-           this.theGame.GraphicsDevice.Clear(new Color(16, 16, 16));
+           this.theGame.GraphicsDevice.Clear(new Color(160, 160, 160));
 
            // TODO: Add your drawing code here
            this.spriteBatch.Begin();
-           this.theGame.debugger.RenderMessages();
+           
+           int maxValue = 0;
+           for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
+           {
+               for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
+               {
+                   if(maxValue < this.theGame.theGrid.getGridValue(new GridCoords(x,y)))
+                   {
+                       maxValue = this.theGame.theGrid.getGridValue(new GridCoords(x, y));
+                   }
+               }
+           }
 
+           int color;
+
+           for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
+           {
+               for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
+               {
+                   Vector2 position = this.getScreenCoords(this.theGame.theGrid.getWorldCoords(new GridCoords(x, y)), new Coordinates(0, 0));
+                   color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
+                   if(color<0)
+                       this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
+                   else
+                   this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 0, color));
+               }
+           }
+           foreach(GridCoords coords in this.theGame.aPath)
+           {
+                Vector2 position = this.getScreenCoords(this.theGame.theGrid.getWorldCoords(coords), new Coordinates(0, 0));
+                this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 255, 0));
+           }
+
+           //this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();
        }
 

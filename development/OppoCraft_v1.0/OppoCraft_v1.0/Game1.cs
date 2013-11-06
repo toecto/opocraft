@@ -25,13 +25,18 @@ namespace OppoCraft
 
         //debug test
         public Debugger debugger;
-        double delayTime = 0;
-        int counter = 0;
 
         //Mouse Movement testing
         public MouseState mouseState;
         public MouseState prevMouseState;
         int scrollValue = 0;
+
+        //Path finding test
+        GridCoords origCoord = new GridCoords(1, 1);
+        GridCoords destCoord = new GridCoords(1, 11);
+
+
+        public Path aPath;
 
         public Game1()
         {            
@@ -43,14 +48,28 @@ namespace OppoCraft
             this.prevMouseState = mouseState;
 
             this.cellSize = new Coordinates(40, 40);
-            this.worldMapSize = new Coordinates(10240, 10240);
+            this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
 
             this.renderSystem = new RenderSystem(this);
 
             this.theGrid = new Grid(this);
 
             this.debugger = new Debugger(this);
-            
+
+            //Testing setting up obstacles
+            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
+            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
+            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
+            //Testing the Path Finder Algorithm
+            this.aPath = this.theGrid.thePathFinder.GetPath(origCoord, destCoord);
+
+            for (int x = 0; x < this.theGrid.gridValues.GetLength(0); x++)
+            {
+                for (int y = 0; y < this.theGrid.gridValues.GetLength(1); y++)
+                {
+                    this.debugger.AddMessage("(" + x + ", " + y + "): " + this.theGrid.gridValues[x, y].ToString());
+                }
+            }
         }
 
         /// <summary>
@@ -103,19 +122,6 @@ namespace OppoCraft
             this.prevMouseState = this.mouseState;
 
             this.debugger.scrollRow = scrollValue;
-
-
-            if (this.delayTime >= 1000)
-            {
-                this.debugger.AddMessage("game time: " + gameTime.TotalGameTime.ToString());
-                this.delayTime = 0;
-                counter++;
-            }
-            else
-            {
-                this.delayTime += gameTime.ElapsedGameTime.TotalMilliseconds;
-            }
-            
 
             base.Update(gameTime);
         }
