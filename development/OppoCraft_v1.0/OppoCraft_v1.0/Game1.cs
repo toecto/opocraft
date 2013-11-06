@@ -32,11 +32,11 @@ namespace OppoCraft
         int scrollValue = 0;
 
         //Path finding test
-        GridCoords origCoord = new GridCoords(1, 1);
-        GridCoords destCoord = new GridCoords(1, 11);
+        WorldCoords origCoord = new WorldCoords(40, 40);
+        WorldCoords destCoord = new WorldCoords(40, 440);
 
 
-        public Path aPath;
+        public WorldPath aPath;
 
         public Game1()
         {            

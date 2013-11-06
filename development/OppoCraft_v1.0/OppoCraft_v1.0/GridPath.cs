@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OppoCraft
 {
-    public class Path : LinkedList<GridCoords>
+    public class GridPath : LinkedList<GridCoords>
     {
 
     }
