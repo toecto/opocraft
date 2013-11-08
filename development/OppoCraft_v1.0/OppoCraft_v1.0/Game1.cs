@@ -57,9 +57,9 @@ namespace OppoCraft
             this.debugger = new Debugger(this);
 
             //Testing setting up obstacles
-            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
             //Testing the Path Finder Algorithm
             this.aPath = this.theGrid.thePathFinder.GetPath(origCoord, destCoord);
 
