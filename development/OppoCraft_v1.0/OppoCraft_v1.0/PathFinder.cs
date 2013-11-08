@@ -25,12 +25,15 @@ namespace OppoCraft
         }
 
         // orig == Origin coordiantes, dest == Destination coordinates
-        public Path GetPath(GridCoords orig, GridCoords dest)
+        public WorldPath GetPath(WorldCoords orig, WorldCoords dest)
         {
-            this.theGrid.fillRectValues(orig, new Coordinates(1, 1), 1); //set orginal grid cell value to 1
-            
-            if(this.SetValues(orig, dest))
-                return this.SetPath(orig, dest);
+            GridCoords origGrid = this.theGrid.getGridCoords(orig);
+            GridCoords destGrid = this.theGrid.getGridCoords(dest);
+
+            this.theGrid.fillRectValues(origGrid, new Coordinates(1, 1), 1); //set orginal grid cell value to 1
+
+            if (this.SetValues(origGrid, destGrid))
+                return this.SetPath(origGrid, destGrid);
             
             return null;
         }
@@ -40,17 +43,17 @@ namespace OppoCraft
         //for each Grid Coord, using the pathValues array
         public bool SetValues(GridCoords orig, GridCoords dest)
         {
-            Path cellQue = new Path(),newCellQue;
+            GridPath cellQue = new GridPath(), newCellQue;
             cellQue.AddFirst(orig);
+            int pathValLength = this.pathValues.GetLength(0);
 
             while (cellQue.Count > 0)
             {
-                newCellQue=new Path();
+                newCellQue=new GridPath();
                 foreach (GridCoords gridCoords in cellQue)
                 {
                     int currentValue = this.theGrid.gridValues[gridCoords.X, gridCoords.Y];
-
-                    for (int i = 0; i < this.pathValues.GetLength(0); i++)
+                    for (int i = 0; i < pathValLength; i++)
                     {
                         int x = gridCoords.X + this.pathValues[i, 0];
                         int y = gridCoords.Y + this.pathValues[i, 1];
@@ -76,10 +79,11 @@ namespace OppoCraft
         // orig == Origin coordiantes, dest == Destination coordinates
         //Using the Grid values populated in SetValues method, determine the lowest value of each surrounding cell, and choose that
         //cell (add to Path collection), use that chosen cell to follow the same routine until getting back to the origin coord.
-        public Path SetPath(GridCoords orig, GridCoords dest)
+        public WorldPath SetPath(GridCoords orig, GridCoords dest)
         {
-            Path path = new Path();
-            path.AddFirst(dest);
+            WorldPath path = new WorldPath();
+            path.AddFirst(this.theGrid.getWorldCoords(dest));
+            int pathValLength = this.pathValues.GetLength(0);
 
             GridCoords baseCoord = dest;
 
@@ -87,7 +91,7 @@ namespace OppoCraft
             {
                 GridCoords currCoord = new GridCoords(baseCoord.X + this.pathValues[0, 0], baseCoord.Y + this.pathValues[0, 1]);
 
-                for (int i = 1; i < this.pathValues.GetLength(0); i++)
+                for (int i = 1; i < pathValLength; i++)
                 {                    
                     GridCoords nextCoord = new GridCoords(baseCoord.X + this.pathValues[i, 0], baseCoord.Y + this.pathValues[i, 1]);
                     
@@ -104,8 +108,8 @@ namespace OppoCraft
                         currCoord = nextCoord;
                     }
                 }
-             
-                path.AddFirst(currCoord);
+
+                path.AddFirst(this.theGrid.getWorldCoords(currCoord));
                 baseCoord = currCoord;
             }
             

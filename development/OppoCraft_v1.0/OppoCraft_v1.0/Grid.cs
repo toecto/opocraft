@@ -10,7 +10,7 @@ namespace OppoCraft
         Game1 theGame;
         public PathFinder thePathFinder;
         
-        public Coordinates gridSize;        
+        public Coordinates gridSize;       
         public int[,] gridValues;
 
         public Grid(Game1 g)
