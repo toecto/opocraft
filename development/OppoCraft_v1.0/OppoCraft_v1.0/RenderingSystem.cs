@@ -73,6 +73,7 @@ namespace OppoCraft
                    this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 0, color));
                }
            }
+
            foreach(WorldCoords coords in this.theGame.aPath)
            {
                 Vector2 position = this.getScreenCoords(coords, new Coordinates(0, 0));
