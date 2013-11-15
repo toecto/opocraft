@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComandMovement.cs" />
     <Compile Include="Coordinates.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="WorldPath.cs" />
