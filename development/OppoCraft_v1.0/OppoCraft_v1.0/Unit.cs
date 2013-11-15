@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+using testClient;
+using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
@@ -28,72 +32,60 @@ namespace OppoCraft
             South_West
         }
 
-        Game1 theGame;
-        Coordinates size;
-        WorldCoords location;
-        WorldCoords destination;
-        int id;
-        int type;
-        
+        public Game1 theGame;
+        public TaskManager task;
+
+
+        public Coordinates size = new Coordinates(1, 1);
+        public WorldCoords location = new WorldCoords(1, 1);
+        public int id;
+        public int playerId = 0;
+        public int type;
+
         public State state;
         public Direction direction;
         public WorldPath worldPath;
-        double dX, dY;
-        double tempX, tempY;
-        
 
-        int currHP;
-        int maxHP;
-        double speed;
-        int damage;
-        int armour;
-        int attackSpeed;
+        public int currHP;
+        public int maxHP;
+        public float speed = 2;
+        public int damage;
+        public int armour;
+        public int attackSpeed;
 
-        public Unit(Game1 g, int id)
+        public Unit(int playerId, int id)
         {
-            this.theGame = g;
+            this.playerId = playerId;
             this.id = id;
-            this.size = new Coordinates(1, 1);            
-
-            this.speed = 5;
+            this.task = new TaskManager(this);
         }
-
-        public void SetPath(WorldCoords orig, WorldCoords dest)
-        {
-           this.worldPath = this.theGame.theGrid.thePathFinder.GetPath(orig, dest);
-        }
-
-        public WorldCoords GetNextStep()
-        {
-            WorldCoords nextStep = this.worldPath.ElementAt(1);  //The second World Coord in the collection
-
-            return nextStep;
-        }
-
-        //Initial Move method, which takes the next WorldCoord in the Path as the destination coordinate
-        //it then calculates delta of X and Y, divided by the distance between the location, and the nextStep
-        public void Move(WorldCoords destination)
-        {
-            double distance = this.location.Distance(destination);
-            this.dX = (destination.X - this.location.X) / distance;
-            this.dY = (this.location.Y - destination.Y) / distance;
-        }
-
-        //Handler of the movement of the unit, as it receives the delta of X and Y, multiplied by speed, and applied to the location
-        //should this method return the values to increment X/Y, and allow the task from the server to pass it back to the unit?
-        public void MoveHandler()
-        {
-            this.tempX += (this.dX * this.speed);
-            this.tempY += (this.dY * this.speed);
-
-            this.location.X = (int)this.tempX;
-            this.location.Y = (int)this.tempY;
-        }
-
-        public void SetGridValue()
+        //can specify for each unit
+        public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
             this.theGame.theGrid.fillRectValues(gridlocation, size, -1);
+        }
+
+        public virtual void Tick()
+        {
+            this.task.Tick();
+        }
+
+        public virtual void Render(RenderSystem render)
+        {
+            Vector2 position = this.theGame.render.getScreenCoords(this.location);
+            position.X -= this.theGame.render.primRect.Width / 2;
+            position.Y -= this.theGame.render.primRect.Height / 2;
+
+            render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
+
+        }
+        //sent the message to the server. 
+
+        public virtual void AddCommand(OppoMessage msg)
+        {
+            msg["uid"] = this.id;
+            this.theGame.AddCommand(msg);
         }
 
     }
