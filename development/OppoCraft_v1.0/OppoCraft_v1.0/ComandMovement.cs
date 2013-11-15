@@ -22,5 +22,10 @@ namespace OppoCraft
             float distance = Vector2.Distance(this.location, this.destination);
             this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location), distance);
         }
+        public void MoveHandler()
+        {
+            this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speed));
+            this.unit.location.setVector2(this.location);
+        }
     }
 }
