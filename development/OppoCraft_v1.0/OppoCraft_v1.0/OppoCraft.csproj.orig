@@ -108,6 +108,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="OppoMessage.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="TaskCollection.cs" />
+    <Compile Include="TaskManager.cs" />
+>>>>>>> 53baadfde9f0bb774d9c9d025a05c955b153dfba
     <Compile Include="Unit.cs" />
     <Compile Include="UnitCollection.cs" />
     <Compile Include="WorldPath.cs" />
