@@ -23,7 +23,7 @@ namespace OppoCraft
 
         public void Remove(Unit u)
         {
-            this.Remove(u.id);
+            this.Remove(u.id); 
         }
 
         public virtual void Add(Unit u)
