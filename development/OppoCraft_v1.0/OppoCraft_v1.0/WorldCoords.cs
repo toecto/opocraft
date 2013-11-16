@@ -14,5 +14,15 @@ namespace OppoCraft
             
         }
 
+
+        public Vector2 getVector2()
+        {
+            return null;
+        }
+
+        public void setVector2(Vector2 vector2)
+        {
+            
+        }
     }
 }
