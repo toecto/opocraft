@@ -13,7 +13,8 @@ namespace OppoCraft
 
         public TaskManager(Unit u)
         {
-            
+            this.unit = u;
+            this.tasks = new TaskCollection();
         }
 
         public void Tick()
