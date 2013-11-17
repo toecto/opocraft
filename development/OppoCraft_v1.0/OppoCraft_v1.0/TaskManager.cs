@@ -19,12 +19,22 @@ namespace OppoCraft
 
         public void Tick()
         {
-            
+            TaskCollection toRemove = new TaskCollection();
+            foreach (Task t in this.tasks)
+            {
+                if (!t.Tick())
+                    toRemove.AddLast(t);
+            }
+            foreach (Task t in toRemove)
+            {
+                this.Remove(t);
+            }
+            toRemove.Clear();
         }
 
         public void Add(Task t)
         {
-           
+            
         }
 
         public void AddUnique(Task task)
