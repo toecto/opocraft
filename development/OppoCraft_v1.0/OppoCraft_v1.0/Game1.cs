@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using testClient;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -16,7 +18,7 @@ namespace OppoCraft
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {        
-        public RenderSystem renderSystem;
+        public RenderSystem render;
 
         //Cells, Map, and Coordinate Properties
         public Coordinates cellSize;
@@ -31,18 +33,31 @@ namespace OppoCraft
         public MouseState prevMouseState;
         int scrollValue = 0;
 
-        //Path finding test
-        WorldCoords origCoord = new WorldCoords(40, 40);
-        WorldCoords destCoord = new WorldCoords(40, 440);
+   
 
+        private NetworkModule network;
+        public GameMap map;
+        public MessageHandler messageHandler;
+        public TaskGoTo goTo = new TaskGoTo(new WorldCoords(500,500));
 
-        public WorldPath aPath;
+        public int cid;
+        public int enemyCid;
+        int UIDCnt = 0;
+        public bool running=false;
 
-        public Game1()
-        {            
+        //Testing properties
+        public int myFirstUnit;
+        
+
+        public Game1(NetworkModule net, int cid, int enemyCid,string Map)
+        {
+            this.cid = cid;
+            this.enemyCid = enemyCid;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-
+            this.network = net;
+            this.messageHandler = new MessageHandler(this,this.network);
+            //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
@@ -50,19 +65,31 @@ namespace OppoCraft
             this.cellSize = new Coordinates(40, 40);
             this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
 
-            this.renderSystem = new RenderSystem(this);
-
+            this.render = new RenderSystem(this);
             this.theGrid = new Grid(this);
-
             this.debugger = new Debugger(this);
+            this.map = new GameMap(this);
+
+            //Testing setting up obstacles
+            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
+            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
+            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
+            this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
+
+            OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
+            msg["uid"] = this.myFirstUnit = this.CreateUID();
+            this.AddCommand(msg);
+            
+            //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
             //Testing setting up obstacles
             //this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
-            //Testing the Path Finder Algorithm
-            this.aPath = this.theGrid.thePathFinder.GetPath(origCoord, destCoord);
-
+            //Testing the Path Finder Algorithm     
+            //Path finding test
+ 
+		/*
             for (int x = 0; x < this.theGrid.gridValues.GetLength(0); x++)
             {
                 for (int y = 0; y < this.theGrid.gridValues.GetLength(1); y++)
@@ -70,6 +97,15 @@ namespace OppoCraft
                     this.debugger.AddMessage("(" + x + ", " + y + "): " + this.theGrid.gridValues[x, y].ToString());
                 }
             }
+            /**/
+            if(Map!=null)
+            this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
+        }
+
+        public int CreateUID()
+        {
+            this.UIDCnt++;
+            return int.Parse(this.cid + "" + this.UIDCnt);
         }
 
         /// <summary>
@@ -91,7 +127,7 @@ namespace OppoCraft
         /// </summary>
         protected override void LoadContent()
         {                       
-            this.renderSystem.LoadContent();
+            this.render.LoadContent();
             
         }
 
@@ -102,7 +138,7 @@ namespace OppoCraft
         /// </summary>
         protected override void UnloadContent()
         {
-            
+            this.network.Stop();
         }
 
         /// <summary>
@@ -120,9 +156,14 @@ namespace OppoCraft
             this.mouseState = Mouse.GetState();
             this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
             this.prevMouseState = this.mouseState;
-
             this.debugger.scrollRow = scrollValue;
 
+            messageHandler.Tick();
+            if(this.running)
+                this.map.Tick();
+
+            if (!this.network.Flush())
+                this.debugger.AddMessage("Lost connection to server");
             base.Update(gameTime);
         }
 
@@ -132,10 +173,18 @@ namespace OppoCraft
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {         
-            this.renderSystem.Render(gameTime);
+            this.render.Render(gameTime);
 
             base.Draw(gameTime);
-        }       
+        }
+
+
+        public void AddCommand(OppoMessage msg)
+        {
+            msg["cid"] = this.cid;
+            this.network.Send(msg);
+        }
+
 
     }
 }
