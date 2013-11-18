@@ -72,6 +72,7 @@ namespace OppoCraft
 
         public virtual void Render(RenderSystem render)
         {
+
            
         }
         //sent the message to the server. 
