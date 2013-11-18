@@ -47,12 +47,23 @@ namespace OppoCraft
 
         public void RemoveByType(System.Type TypeToRemove)
         {
-           
+            TaskCollection toRemove = new TaskCollection();
+            foreach (Task t in this.tasks)
+            {
+                if (t.GetType() == TypeToRemove)
+                    toRemove.AddLast(t);
+            }
+            foreach (Task t in toRemove)
+            {
+                this.Remove(t);
+            }
+            toRemove.Clear();
         }
 
         public void Remove(Task t)
         {
-           
+            t.onFinish();
+            this.tasks.Remove(t);
         }
     }
 }
