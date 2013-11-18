@@ -15,17 +15,24 @@ namespace OppoCraft
 
         public void Tick()
         {
-
+            foreach (KeyValuePair<int, Unit> item in this)
+            {
+                item.Value.Tick();
+            }
         }
 
         public void Render(RenderSystem render)
         {
-            
+            foreach (KeyValuePair<int, Unit> item in this)
+            {
+                item.Value.Render(render);
+            }
         }
         // add unitcollection to the map
         public override void Add(Unit u)
         {
-           
+            u.theGame = this.theGame;
+            base.Add(u);
         }
     }
 }

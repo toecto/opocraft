@@ -72,7 +72,10 @@ namespace OppoCraft
 
         public virtual void Render(RenderSystem render)
         {
-
+            Vector2 position = this.theGame.render.getScreenCoords(this.location);
+            position.X -= this.theGame.render.primRect.Width / 2;
+            position.Y -= this.theGame.render.primRect.Height / 2;
+            render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
            
         }
         //sent the message to the server. 
