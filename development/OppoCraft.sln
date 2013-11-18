@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OppoCraft", "OppoCraft_v1.0\OppoCraft_v1.0\OppoCraft.csproj", "{74166B17-5191-4E3F-977F-639C4B334351}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "OppoCraft_v1.0Content", "OppoCraft_v1.0\OppoCraft_v1.0Content\OppoCraft_v1.0Content.contentproj", "{50C6B080-40DB-4BC7-B399-A4FF421A9F8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OppoCraft_v1.0Content", "OppoCraft_v1.0\OppoCraft_v1.0Content\OppoCraft_v1.0Content.contentproj", "{50C6B080-40DB-4BC7-B399-A4FF421A9F8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testClient", "..\test_dev\testClient\testClient\testClient.csproj", "{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestServer", "..\test_dev\testServer\TestServer\TestServer.csproj", "{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,14 @@ Global
 		{74166B17-5191-4E3F-977F-639C4B334351}.Release|x86.Build.0 = Release|x86
 		{50C6B080-40DB-4BC7-B399-A4FF421A9F8A}.Debug|x86.ActiveCfg = Debug|x86
 		{50C6B080-40DB-4BC7-B399-A4FF421A9F8A}.Release|x86.ActiveCfg = Release|x86
+		{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}.Debug|x86.ActiveCfg = Debug|x86
+		{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}.Debug|x86.Build.0 = Debug|x86
+		{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}.Release|x86.ActiveCfg = Release|x86
+		{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}.Release|x86.Build.0 = Release|x86
+		{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}.Debug|x86.ActiveCfg = Debug|x86
+		{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}.Debug|x86.Build.0 = Debug|x86
+		{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}.Release|x86.ActiveCfg = Release|x86
+		{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
