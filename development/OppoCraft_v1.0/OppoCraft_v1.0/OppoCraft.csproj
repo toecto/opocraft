@@ -109,8 +109,6 @@
   <ItemGroup>
     <Compile Include="ComandMovement.cs" />
     <Compile Include="Coordinates.cs" />
-    <Compile Include="GameMap.cs" />
-    <Compile Include="OppoMessage.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="TaskCollection.cs" />
     <Compile Include="TaskManager.cs" />
