@@ -109,7 +109,9 @@
   <ItemGroup>
     <Compile Include="ComandMovement.cs" />
     <Compile Include="Coordinates.cs" />
+    <Compile Include="OppoMessage.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="TaskGoto.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="UnitCollection.cs" />
     <Compile Include="WorldPath.cs" />
