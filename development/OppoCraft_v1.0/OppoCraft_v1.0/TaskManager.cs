@@ -34,12 +34,15 @@ namespace OppoCraft
 
         public void Add(Task t)
         {
-            
+            t.unit = this.unit;
+            this.tasks.AddLast(t);
+            t.onStart();
         }
 
         public void AddUnique(Task task)
         {
-           
+            this.RemoveByType(task.GetType());
+            this.Add(task);
         }
 
         public void RemoveByType(System.Type TypeToRemove)
