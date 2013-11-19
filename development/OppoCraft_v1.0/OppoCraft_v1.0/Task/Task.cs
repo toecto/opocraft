@@ -8,7 +8,6 @@ namespace OppoCraft
     class Task
     {
         public Unit unit;
-
         public virtual bool Tick() 
         {
             return false;
@@ -16,7 +15,6 @@ namespace OppoCraft
         public virtual void onStart() 
         {
         }
-
         public virtual void onFinish() 
         {
         }
