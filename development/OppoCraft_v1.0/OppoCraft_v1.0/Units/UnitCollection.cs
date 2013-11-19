@@ -17,12 +17,12 @@ namespace OppoCraft
         {
             Unit u = this.getById(id);
             if (u != null)
-                this.Remove(u);
+                base.Remove(id);
         }
 
         public void Remove(Unit u)
         {
-            this.Remove(u.id);
+            base.Remove(u.id); 
         }
 
         public virtual void Add(Unit u)
@@ -31,4 +31,5 @@ namespace OppoCraft
         }
 
     }
+    
 }

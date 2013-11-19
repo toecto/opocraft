@@ -59,7 +59,8 @@ namespace OppoCraft
             this.id = id;
             this.task = new TaskManager(this);
         }
-
+        //can specify for this unit
+        //get location to know is occupied.using -1 to know
         public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
@@ -80,6 +81,7 @@ namespace OppoCraft
             render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
 
         }
+        //sent the message to the server. 
 
         public virtual void AddCommand(OppoMessage msg)
         {
