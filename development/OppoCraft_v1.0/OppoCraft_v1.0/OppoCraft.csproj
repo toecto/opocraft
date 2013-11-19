@@ -107,22 +107,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComandMovement.cs" />
-    <Compile Include="Coordinates.cs" />
-    <Compile Include="GameMap.cs" />
-    <Compile Include="OppoMessage.cs" />
-    <Compile Include="Task.cs" />
-    <Compile Include="TaskCollection.cs" />
-    <Compile Include="TaskManager.cs" />
-    <Compile Include="Unit.cs" />
-    <Compile Include="UnitCollection.cs" />
-    <Compile Include="WorldPath.cs" />
+    <Compile Include="Commands\ComandMovement.cs" />
+    <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Units\GameMap.cs" />
+    <Compile Include="Network\NetworkModule.cs" />
+    <Compile Include="Network\OppoMessageCollection.cs" />
+    <Compile Include="StartForm.cs" />
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Task\Task.cs" />
+    <Compile Include="Task\TaskCollection.cs" />
+    <Compile Include="Task\TaskGoto.cs" />
+    <Compile Include="Task\TaskManager.cs" />
+    <Compile Include="Units\PathFindingTest.cs" />
+    <Compile Include="Units\Unit.cs" />
+    <Compile Include="Units\UnitCollection.cs" />
+    <Compile Include="Coordinates\WorldPath.cs" />
     <Compile Include="Debugger.cs" />
-    <Compile Include="Grid.cs" />
-    <Compile Include="GridPath.cs" />
-    <Compile Include="PathFinder.cs" />
-    <Compile Include="WorldCoords.cs" />
-    <Compile Include="GridCoords.cs" />
+    <Compile Include="Coordinates\Grid.cs" />
+    <Compile Include="Coordinates\GridPath.cs" />
+    <Compile Include="Coordinates\PathFinder.cs" />
+    <Compile Include="Coordinates\WorldCoords.cs" />
+    <Compile Include="Coordinates\GridCoords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
@@ -133,6 +140,14 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\test_dev\testClient\testClient\testClient.csproj">
+      <Project>{CCEA3FD3-6567-4977-8257-2E8ECDBE06E1}</Project>
+      <Name>testClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\test_dev\testServer\TestServer\TestServer.csproj">
+      <Project>{BD1BA7C5-E384-48E7-A229-09ECF77CFFE8}</Project>
+      <Name>TestServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OppoCraft_v1.0Content\OppoCraft_v1.0Content.contentproj">
       <Name>OppoCraft_v1.0Content %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
@@ -165,6 +180,11 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
