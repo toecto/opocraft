@@ -58,7 +58,8 @@ namespace OppoCraft
             this.playerId = playerId;
             this.id = id;
         }
-        //can specify for each unit
+        //can specify for this unit
+        //get location to know is occupied.using -1 to know
         public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
