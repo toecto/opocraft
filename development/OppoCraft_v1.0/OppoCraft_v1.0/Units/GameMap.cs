@@ -23,12 +23,12 @@ namespace OppoCraft
 
         public void Render(RenderSystem render)
         {
-            foreach (KeyValuePair<int, Unit> item in this)
+            foreach (KeyValuePair<int,Unit> item in this)
             {
                 item.Value.Render(render);
             }
         }
-        // add unitcollection to the map
+
         public override void Add(Unit u)
         {
             u.theGame = this.theGame;

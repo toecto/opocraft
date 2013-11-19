@@ -19,8 +19,8 @@ namespace OppoCraft
             this.thePathFinder = new PathFinder(this, theGame);
 
             this.gridSize = new Coordinates(this.theGame.worldMapSize.X / this.theGame.cellSize.X, this.theGame.worldMapSize.Y / this.theGame.cellSize.Y);
-            this.gridValues = new int[this.gridSize.X, this.gridSize.X];
-            this.ResetGridValues();
+            this.gridValues = new int[this.gridSize.X, this.gridSize.Y];
+            this.initGridValues();
         }
 
         //returns the int value for the coordiante on the grid
@@ -54,10 +54,21 @@ namespace OppoCraft
         }
 
         //sets the Grid cell values all to zero
-        public void ResetGridValues()
+        public void initGridValues()
         {
             this.fillRectValues(new GridCoords(0, 0), this.gridSize, -1);
             this.fillRectValues(new GridCoords(1, 1), new Coordinates(this.gridSize.X - 2, this.gridSize.Y - 2), 0);
+        }
+        public void resetGridValues()
+        {
+            for (int x = 0; x < this.gridSize.X; x++)
+            {
+                for (int y = 0; y < this.gridSize.Y; y++)
+                {
+                    if (this.gridValues[x, y] > 0)
+                        this.gridValues[x, y] = 0;
+                }
+            }
         }
         
 

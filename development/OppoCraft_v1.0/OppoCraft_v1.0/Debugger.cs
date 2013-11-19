@@ -34,7 +34,7 @@ namespace OppoCraft
 
             foreach (string item in msgList)
             {
-                this.theGame.renderSystem.DrawText(item, new Vector2(5, this.rowSize * currMsg - this.scrollRow));
+                this.theGame.render.DrawText(item, new Vector2(5, this.rowSize * currMsg - this.scrollRow));
                 currMsg++;
             }
         }

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace OppoCraft
 {
-    class TaskCollection : LinkedList<Task>
+    public class TaskCollection: LinkedList<Task>
     {
+    
     }
 }

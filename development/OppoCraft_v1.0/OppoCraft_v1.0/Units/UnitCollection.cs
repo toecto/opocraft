@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+
 
 namespace OppoCraft
 {
@@ -9,7 +8,7 @@ namespace OppoCraft
     {
         public Unit getById(int id)
         {
-            if (this.ContainsKey(id))
+            if(this.ContainsKey(id))
                 return this[id];
             return null;
         }
@@ -23,14 +22,13 @@ namespace OppoCraft
 
         public void Remove(Unit u)
         {
-            this.Remove(u.id); 
+            this.Remove(u.id);
         }
 
         public virtual void Add(Unit u)
         {
-            this.Add(u.id, u);
+            this.Add(u.id,u);
         }
 
     }
-    
 }

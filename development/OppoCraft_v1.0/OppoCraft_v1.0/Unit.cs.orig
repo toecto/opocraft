@@ -33,8 +33,12 @@ namespace OppoCraft
         }
 
         public Game1 theGame;
-        public TaskManager task;
+        public TaskCollection task;
+<<<<<<< HEAD
+
+=======
         
+>>>>>>> 537cc4662a18e94fe7972360c378e0fa21de8b91
 
         public Coordinates size = new Coordinates(1, 1);
         public WorldCoords location=new WorldCoords(1 , 1);
@@ -43,8 +47,7 @@ namespace OppoCraft
         public int type;
         
         public State state;
-        public Direction direction;
-        public WorldPath worldPath;        
+        public Direction direction;        
 
         public int currHP;
         public int maxHP;
@@ -57,7 +60,11 @@ namespace OppoCraft
         {
             this.playerId = playerId;
             this.id = id;
-            this.task = new TaskManager(this);
+<<<<<<< HEAD
+            task = new TaskCollection(this);
+=======
+            this.task = new TaskCollection(this);
+>>>>>>> 537cc4662a18e94fe7972360c378e0fa21de8b91
         }
 
         public virtual void SetGridValue()

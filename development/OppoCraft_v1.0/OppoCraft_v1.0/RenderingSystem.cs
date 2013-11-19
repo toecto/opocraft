@@ -4,28 +4,27 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace OppoCraft
 {
    public class RenderSystem
     {
         // Render squeezing Coeffecient: equal width, 60% height
-       public float[] renderCoEff = new float[] { 1.0f, 0.6f };
+       public float kY=0.6f; //kX=1 always
 
        public Game1 theGame;
        GraphicsDeviceManager graphics;
-       SpriteBatch spriteBatch;
-       SpriteFont font;
-       Texture2D primRect;
-
+       public SpriteBatch spriteBatch;
+       public SpriteFont font;
+       public Texture2D primRect;
+       Coordinates scroll = new Coordinates(0, 0);
        public RenderSystem(Game1 g)
        {
            this.theGame = g;
-
            this.graphics = new GraphicsDeviceManager(this.theGame);
            this.graphics.PreferredBackBufferWidth = 1000;
            this.graphics.PreferredBackBufferHeight = 600;
-
        }
 
        public void LoadContent()
@@ -46,41 +45,10 @@ namespace OppoCraft
 
            // TODO: Add your drawing code here
            this.spriteBatch.Begin();
-           
-           int maxValue = 0;
-           for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
-           {
-               for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
-               {
-                   if(maxValue < this.theGame.theGrid.getGridValue(new GridCoords(x,y)))
-                   {
-                       maxValue = this.theGame.theGrid.getGridValue(new GridCoords(x, y));
-                   }
-               }
-           }
 
-           int color;
+           this.theGame.map.Render(this);
 
-           for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
-           {
-               for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
-               {
-                   Vector2 position = this.getScreenCoords(this.theGame.theGrid.getWorldCoords(new GridCoords(x, y)), new Coordinates(0, 0));
-                   color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
-                   if(color<0)
-                       this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
-                   else
-                   this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 0, color));
-               }
-           }
-
-           foreach(WorldCoords coords in this.theGame.aPath)
-           {
-                Vector2 position = this.getScreenCoords(coords, new Coordinates(0, 0));
-                this.spriteBatch.Draw(primRect, position, new Rectangle(0, 0, 40, 24),new Color(0, 255, 0));
-           }
-
-           //this.theGame.debugger.RenderMessages();
+           this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();
        }
 
@@ -95,15 +63,15 @@ namespace OppoCraft
        }
 
         //paramater is for screen coordinates, used to shift the coordinates
-        public Vector2 getScreenCoords(WorldCoords worldCoords, Coordinates scroll)
+        public Vector2 getScreenCoords(WorldCoords worldCoords)
         {
-            return new Vector2((int)(worldCoords.X * renderCoEff[0] - scroll.X), (int)(worldCoords.Y * renderCoEff[1] - scroll.Y));
+            return new Vector2(worldCoords.X - scroll.X, (int)(worldCoords.Y * this.kY - scroll.Y));
         }
 
         //paramaters are for the screen, and scroll coords, to convert from screen to World
-        public WorldCoords getWorldCoords(Vector2 screen, Coordinates scroll)
+        public WorldCoords getWorldCoords(Vector2 screen)
         {
-            return new WorldCoords((int)((screen.X + scroll.X) / renderCoEff[0]), (int)((screen.Y + scroll.Y) / renderCoEff[1]));
+            return new WorldCoords((int)screen.X + scroll.X, (int)((screen.Y + scroll.Y) / this.kY));
         }             
 
        
