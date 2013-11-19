@@ -1,0 +1,184 @@
+<<<<<<< HEAD:development/OppoCraft_v1.0/OppoCraft_v1.0/Unit.cs
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+using testClient;
+using Microsoft.Xna.Framework;
+
+namespace OppoCraft
+{
+    public class Unit
+    {
+        public enum State
+        {
+            Halt,
+            TakeDamage,
+            Dying,
+            Walking,
+            Running,
+            Attacking
+        }
+        public enum Direction
+        {
+            North,
+            South,
+            East,
+            West,
+            North_East,
+            North_West,
+            South_East,
+            South_West
+        }
+
+        public Game1 theGame;
+        public TaskManager task;
+
+
+        public Coordinates size = new Coordinates(1, 1);
+        public WorldCoords location = new WorldCoords(1, 1);
+        public int id;
+        public int playerId = 0;
+        public int type;
+
+        public State state;
+        public Direction direction;
+        public WorldPath worldPath;
+
+        public int currHP;
+        public int maxHP;
+        public float speed = 2;
+        public int damage;
+        public int armour;
+        public int attackSpeed;
+
+        public Unit(int playerId, int id)
+        {
+            this.playerId = playerId;
+            this.id = id;
+        }
+        //can specify for this unit
+        //get location to know is occupied.using -1 to know
+        public virtual void SetGridValue()
+        {
+            GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
+            this.theGame.theGrid.fillRectValues(gridlocation, size, -1);
+        }
+
+        public virtual void Tick()
+        {
+            this.task.Tick();
+        }
+
+        public virtual void Render(RenderSystem render)
+        {
+            Vector2 position = this.theGame.render.getScreenCoords(this.location);
+            position.X -= this.theGame.render.primRect.Width / 2;
+            position.Y -= this.theGame.render.primRect.Height / 2;
+            render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
+           
+        }
+        //sent the message to the server. 
+
+        public virtual void AddCommand(OppoMessage msg)
+        {
+            msg["uid"] = this.id;
+            this.theGame.AddCommand(msg);
+        }
+
+    }
+}
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+using testClient;
+using Microsoft.Xna.Framework;
+
+namespace OppoCraft
+{
+    public class Unit
+    {
+        public enum State
+        {
+            Halt,
+            TakeDamage,
+            Dying,
+            Walking,
+            Running,
+            Attacking
+        }
+        public enum Direction
+        {
+            North,
+            South,
+            East,
+            West,
+            North_East,
+            North_West,
+            South_East,
+            South_West
+        }
+
+        public Game1 theGame;
+        public TaskManager task;
+
+
+        public Coordinates size = new Coordinates(1, 1);
+        public WorldCoords location = new WorldCoords(1, 1);
+        public int id;
+        public int playerId = 0;
+        public int type;
+
+        public State state;
+        public Direction direction;
+        public WorldPath worldPath;
+
+        public int currHP;
+        public int maxHP;
+        public float speed = 2;
+        public int damage;
+        public int armour;
+        public int attackSpeed;
+
+        public Unit(int playerId, int id)
+        {
+            this.playerId = playerId;
+            this.id = id;
+        }
+        //can specify for each unit
+        public virtual void SetGridValue()
+        {
+            GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
+            this.theGame.theGrid.fillRectValues(gridlocation, size, -1);
+        }
+
+        public virtual void Tick()
+        {
+            this.task.Tick();
+        }
+
+        public virtual void Render(RenderSystem render)
+        {
+            Vector2 position = this.theGame.render.getScreenCoords(this.location);
+            position.X -= this.theGame.render.primRect.Width / 2;
+            position.Y -= this.theGame.render.primRect.Height / 2;
+            render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
+           
+        }
+        //sent the message to the server. 
+
+        public virtual void AddCommand(OppoMessage msg)
+        {
+            msg["uid"] = this.id;
+            this.theGame.AddCommand(msg);
+        }
+
+    }
+}
+>>>>>>> ddd71582b5bef7347bb44463313fc02b4c423eb2:development/OppoCraft_v1.0/OppoCraft_v1.0/Units/Unit.cs

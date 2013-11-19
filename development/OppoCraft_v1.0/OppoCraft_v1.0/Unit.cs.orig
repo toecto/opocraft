@@ -33,8 +33,12 @@ namespace OppoCraft
         }
 
         public Game1 theGame;
-        public TaskManager task;
+        public TaskCollection task;
+<<<<<<< HEAD
+
+=======
         
+>>>>>>> 537cc4662a18e94fe7972360c378e0fa21de8b91
 
         public Coordinates size = new Coordinates(1, 1);
         public WorldCoords location=new WorldCoords(1 , 1);
@@ -43,8 +47,7 @@ namespace OppoCraft
         public int type;
         
         public State state;
-        public Direction direction;
-        public WorldPath worldPath;        
+        public Direction direction;        
 
         public int currHP;
         public int maxHP;
@@ -57,10 +60,13 @@ namespace OppoCraft
         {
             this.playerId = playerId;
             this.id = id;
-            this.task = new TaskManager(this);
+<<<<<<< HEAD
+            task = new TaskCollection(this);
+=======
+            this.task = new TaskCollection(this);
+>>>>>>> 537cc4662a18e94fe7972360c378e0fa21de8b91
         }
-        //can specify for this unit
-        //get location to know is occupied.using -1 to know
+
         public virtual void SetGridValue()
         {
             GridCoords gridlocation = this.theGame.theGrid.getGridCoords(this.location);
@@ -81,7 +87,6 @@ namespace OppoCraft
             render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 255, 255));
 
         }
-        //sent the message to the server. 
 
         public virtual void AddCommand(OppoMessage msg)
         {

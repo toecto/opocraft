@@ -7,35 +7,39 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    public class ComandMovement: Task
+    public class CommandMovement: Task //do not assign directly
     {
-        Vector2 delta;
+        Vector2 delta;//for a tick increment
         Vector2 location;
         Vector2 destination;
-        public ComandMovement(WorldCoords dest)
+
+        public CommandMovement(WorldCoords dest)
         {
             this.destination = dest.getVector2();
         }
+
         public override void onStart()
         {
             this.location = this.unit.location.getVector2();
+            
             float distance = Vector2.Distance(this.location, this.destination);
-            this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location), distance);
+            this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location),distance);
         }
+
         public override bool Tick()
         {
             if (Vector2.Distance(this.location, this.destination) <= this.unit.speed)
             {
                 this.unit.location.setVector2(this.destination);
-                return false;
+                return false; 
             }
             else
             {
                 this.MoveHandler();
                 return true;
-            }
-            //return base.Tick();
+            }            
         }
+
         public void MoveHandler()
         {
             this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speed));
