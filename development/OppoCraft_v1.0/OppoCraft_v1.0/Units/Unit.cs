@@ -44,8 +44,8 @@ namespace OppoCraft
         
         public State state;
         public Direction direction;
-        public WorldPath worldPath;        
-
+        public WorldPath worldPath;
+        public Unit currTarget;
         public int currHP;
         public int maxHP;
         public float speed=2;
