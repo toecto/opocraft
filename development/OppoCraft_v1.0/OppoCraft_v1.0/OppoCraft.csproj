@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Task\TaskRecover.cs" />
     <Compile Include="Units\Follow.cs" />
     <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
