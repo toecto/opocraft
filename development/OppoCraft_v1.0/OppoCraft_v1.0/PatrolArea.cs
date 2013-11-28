@@ -8,21 +8,32 @@ namespace OppoCraft
 {
     public class PatrolArea: Task
     {
+        WorldCoords currWorldPath;
+        WorldCoords destination;
         
-        WorldPath currPath;
-        WorldCoords w;
-        
-       public TaskGoTo patrol;
         public PatrolArea(WorldPath p)
         {
-            this.currPath = p;
            
+            Random random = new Random();
+            int worldIndex = random.Next(p.Count());
+            this.destination = p[worldIndex];
+           
+            
         }
+        
 
         public override bool Tick()
         {
+            if (this.currWorldPath == this.destination)
+            {
+                return false;
+            }
             
-            return base.Tick();
+            else
+            {
+                this.unit.task.Add(new TaskGoTo(this.destination));
+            }
+            return true;
         }
 
        
