@@ -8,18 +8,18 @@ namespace OppoCraft
 
     class Follow : Task
     {
-        public Unit currDestination;
+        public WorldCoords currDestination;
         
         public void compareLocation()
         {
-            if (this.unit.currTarget.location != currDestination.location)
+            if (this.unit.currTarget.location != currDestination)
             {
-                this.unit.task.Add(new  TaskGoTo(this.currDestination.location));
+                this.unit.task.Add(new  TaskGoTo(this.currDestination));
             }
         }
         public override bool Tick()
         {
-            if (this.unit.currTarget == null)
+            if (this.currDestination == null)
             {
                 return false;
 
@@ -32,17 +32,7 @@ namespace OppoCraft
             }
             return true;
         }
-        public Unit CurrDestination
-        {
-            get
-            {
-                return currDestination;
-            }
-            set
-            {
-                this.currDestination = value;
-            }
-        }
+        
        
 
     }
