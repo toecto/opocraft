@@ -2,19 +2,21 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using testClient;
+using System.Collections.Generic;
 
 namespace OppoCraft
 {
-    class PathFinderTest: Unit
+    class PathFinderTest: MapEntity
     {
         WorldPath aPath=null;
         GridCoords lastSpot = new GridCoords(0,0);
 
-        public PathFinderTest(int pid,int id)
-            : base(pid, id)
+        public PathFinderTest(int uid)
         {
             this.location = new WorldCoords(100, 100);
+            this.uid = uid;
         }
+
 
         public override void Tick()
         {
@@ -26,25 +28,20 @@ namespace OppoCraft
             {
                 this.lastSpot = test;
 
-                if (this.theGame.map.getById(this.theGame.myFirstUnit) != null)
-                { 
-                    /*
-                    OppoMessage msg=new OppoMessage(OppoMessageType.MoveUnit);
-                    msg["x"]=destination.X;
-                    msg["y"]=destination.Y;
-                    this.theGame.units.getById(this.theGame.myFirstUnit).AddCommand(msg);
-                    /**/
-                    WorldCoords origCoord = this.theGame.map.getById(this.theGame.myFirstUnit).location;
+                foreach(KeyValuePair<int,MapEntity> item in this.theGame.map)
+                {
+                    if (item.Value.GetType() != typeof(Unit)) continue;
+                    Unit unit = (Unit)item.Value;
+                    if (unit.cid != this.theGame.cid) continue;
+                    //Unit u = this.theGame.map.getById(this.theGame.myFirstUnit);
+                    WorldCoords origCoord = unit.location;
                     WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
-                    Debug.WriteLine(destination.X+" "+destination.Y);
 
-                    this.aPath = this.theGame.theGrid.thePathFinder.GetPath(origCoord, destination);
-                    this.theGame.map.getById(this.theGame.myFirstUnit).task.AddUnique(new TaskGoTo(destination));
+                    //this.aPath = this.theGame.pathFinder.GetPath(origCoord, destination);
+                    //u.task.Add(new TaskGoTo(destination));
                 }
             }
             //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
-            
-  
         }
 
         public override void Render(RenderSystem render)
@@ -61,7 +58,7 @@ namespace OppoCraft
                 }
             }
 
-            int color=1;
+            int color = 1;
 
             for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
             {
@@ -72,11 +69,15 @@ namespace OppoCraft
                     position.Y -= this.theGame.render.primRect.Height/ 2; 
                     color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
                     if (color < 0)
-                        render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
-                    else
-                        render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
+                    {
+                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
+                        render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
+                    }
+                    //else
+                      //  render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
                 }
             }
+            
             if (this.aPath != null)
             {
                 foreach (WorldCoords coords in this.aPath)
@@ -84,7 +85,7 @@ namespace OppoCraft
                     Vector2 position = this.theGame.render.getScreenCoords(coords);
                     position.X -= this.theGame.render.primRect.Width / 2;
                     position.Y -= this.theGame.render.primRect.Height / 2; 
-                    render.spriteBatch.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 255, 0));
+                    render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 255, 0));
                 }
             }
             else

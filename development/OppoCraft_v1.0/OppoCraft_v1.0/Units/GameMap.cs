@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OppoCraft
 {
-    public class GameMap: UnitCollection
+    public class GameMap: EntityCollection
     {
         Game1 theGame;
         public GameMap(Game1 g)
@@ -15,7 +15,7 @@ namespace OppoCraft
 
         public void Tick()
         {
-            foreach (KeyValuePair<int, Unit> item in this)
+            foreach (KeyValuePair<int, MapEntity> item in this)
             {
                 item.Value.Tick();
             }
@@ -23,16 +23,18 @@ namespace OppoCraft
 
         public void Render(RenderSystem render)
         {
-            foreach (KeyValuePair<int,Unit> item in this)
+            foreach (KeyValuePair<int, MapEntity> item in this.OrderBy(item => item.Value.location.Y))
             {
                 item.Value.Render(render);
             }
         }
 
-        public override void Add(Unit u)
+        public override void Add(MapEntity u)
         {
             u.theGame = this.theGame;
             base.Add(u);
         }
     }
+
+
 }

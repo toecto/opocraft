@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using testClient;
 
 namespace OppoCraft
 {
@@ -13,9 +14,9 @@ namespace OppoCraft
         Vector2 location;
         Vector2 destination;
 
-        public CommandMovement(WorldCoords dest)
+        public CommandMovement(OppoMessage msg)
         {
-            this.destination = dest.getVector2();
+            this.destination = (new WorldCoords(msg["x"], msg["y"])).getVector2();
         }
 
         public override void onStart()
@@ -24,6 +25,8 @@ namespace OppoCraft
             
             float distance = Vector2.Distance(this.location, this.destination);
             this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location),distance);
+            this.unit.direction = deltaToDirection(this.delta);
+            this.unit.animation.startAction("Walk");
         }
 
         public override bool Tick()
@@ -44,6 +47,62 @@ namespace OppoCraft
         {
             this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speed));
             this.unit.location.setVector2(this.location);
+            
         }
+
+        public static Unit.Direction deltaToDirection(Vector2 delta)
+        {
+            delta.Normalize();
+            if (delta.X > 0)
+            {
+
+                if (delta.Y > 0.99)
+                {
+                    return Unit.Direction.South;
+                }
+                
+                if (delta.Y > 0.4871)
+                {
+                    return Unit.Direction.South_East;
+                }
+                
+                if (delta.Y > -0.4871)
+                {
+                    return Unit.Direction.East;
+                }
+
+                if (delta.Y > -0.99)
+                {
+                    return Unit.Direction.North_East;
+                }
+
+                return Unit.Direction.North;
+            }
+            else
+            {
+                if (delta.Y > 0.99)
+                {
+                    return Unit.Direction.South;
+                }
+
+                if (delta.Y > 0.4871)
+                {
+                    return Unit.Direction.South_West;
+                }
+
+                if (delta.Y > -0.4871)
+                {
+                    return Unit.Direction.West ;
+                }
+
+                if (delta.Y > -0.99)
+                {
+                    return Unit.Direction.North_West;
+                }
+
+                return Unit.Direction.North;
+            }
+        }
+
     }
 }
