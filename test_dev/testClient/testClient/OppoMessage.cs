@@ -15,10 +15,15 @@ namespace testClient
         Ping,
         LoadGame,
         StartGame,
+
         CreateUnit,
         RemoveUnit,
         Movement,
-        
+        ChangeState,
+        Stop,
+        CreateDecale,
+        TreeGrow,
+
     };
 
     public class OppoMessage : Dictionary<string, Int32>
