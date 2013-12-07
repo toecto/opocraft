@@ -110,8 +110,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\MessageHandler.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
     <Compile Include="PatrolArea.cs" />
+    <Compile Include="Task\TaskMortality.cs" />
     <Compile Include="Units\Follow.cs" />
     <Compile Include="Units\GameMap.cs" />
     <Compile Include="StartForm.cs">
@@ -125,7 +127,6 @@
     <Compile Include="Network\NetworkModule.cs" />
     <Compile Include="Network\OppoMessageCollection.cs" />
     <Compile Include="Units\PathFindingTest.cs" />
-    <Compile Include="Commands\MessageHandler.cs" />
     <Compile Include="Task\Task.cs" />
     <Compile Include="Task\TaskCollection.cs" />
     <Compile Include="Task\TaskManager.cs" />
