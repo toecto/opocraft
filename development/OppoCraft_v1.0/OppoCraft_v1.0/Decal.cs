@@ -11,13 +11,15 @@ namespace OppoCraft
 
         public Decal(OppoMessage settings)
         {
-           
+            this.settings = settings;
         }
 
         public override void onStart()
         {
-            
+            this.animation = this.theGame.graphContent.GetDecaleAnimation(this.settings.Text["name"]);
+            this.animation.Random();
         }
+
 
         public override void Tick()
         {
