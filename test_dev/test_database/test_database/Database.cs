@@ -22,9 +22,12 @@ public class Database
         this.Connection.Close();
     }
 
-    public DataTable Query(string Query)
+    public DataTable Query(string Query, SqlCeParameter[] parameters=null)
     {
         SqlCeCommand SqlCommand = new SqlCeCommand(Query, this.Connection);
+        if (parameters != null)
+            SqlCommand.Parameters.AddRange(parameters);
+            
         SqlCeDataAdapter Adapter = new SqlCeDataAdapter(SqlCommand);
         
         DataTable Results = new DataTable();
@@ -40,9 +43,11 @@ public class Database
         return Results;
     }
 
-    public void NonQuery(string Query)
+    public void NonQuery(string Query, SqlCeParameter[] parameters = null)
     {
         SqlCeCommand SqlCommand = new SqlCeCommand(Query);
+        if (parameters != null)
+            SqlCommand.Parameters.AddRange(parameters);
         SqlCommand.ExecuteNonQuery();
     }
 
