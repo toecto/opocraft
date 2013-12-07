@@ -110,8 +110,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Background.cs" />
     <Compile Include="Commands\MessageHandler.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Decal.cs" />
     <Compile Include="PatrolArea.cs" />
     <Compile Include="Task\TaskMortality.cs" />
     <Compile Include="Units\Follow.cs" />
