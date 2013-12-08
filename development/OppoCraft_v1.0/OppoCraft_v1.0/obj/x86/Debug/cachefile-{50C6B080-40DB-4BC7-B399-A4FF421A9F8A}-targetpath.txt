@@ -1,0 +1,2 @@
+Content\myFont.xnb
+Content\Prim_Rect.xnb
