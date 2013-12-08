@@ -20,15 +20,14 @@ namespace OppoCraft
             this.animation.Random();
         }
 
-
         public override void Tick()
         {
-            
+            this.animation.Tick();
         }
 
         public override void Render(RenderSystem render)
         {
-            
+            this.animation.Render(render, render.getScreenCoords(this.location));
         }
     }
 }
