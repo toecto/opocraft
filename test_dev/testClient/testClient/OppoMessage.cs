@@ -16,13 +16,14 @@ namespace testClient
         LoadGame,
         StartGame,
 
-        CreateUnit,
+        CreateEntity,
         RemoveUnit,
         Movement,
         ChangeState,
         Stop,
         CreateDecale,
         TreeGrow,
+        FlyToEntity,
 
     };
 

@@ -30,6 +30,7 @@ namespace OppoCraft
 
                 OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
                 msg.Text["onlyact"] = "Die";
+                
                 this.unit.AddCommand(msg);
             }
 

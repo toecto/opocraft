@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using testClient;
 using System.Diagnostics;
+using System.Threading;
 
 namespace OppoCraft
 {
@@ -19,11 +20,13 @@ namespace OppoCraft
     public class Game1 : Microsoft.Xna.Framework.Game
     {        
         public RenderSystem render;
+        public GraphContentManager graphContent;
 
         //Cells, Map, and Coordinate Properties
-        public Coordinates cellSize;
-        public Coordinates worldMapSize;
+        public WorldCoords cellSize;
+        public WorldCoords worldMapSize;
         public Grid theGrid;
+        public PathFinder pathFinder;
 
         //debug test
         public Debugger debugger;
@@ -38,47 +41,55 @@ namespace OppoCraft
         private NetworkModule network;
         public GameMap map;
         public MessageHandler messageHandler;
-        public TaskGoTo goTo = new TaskGoTo(new WorldCoords(500,500));
 
         public int cid;
         public int enemyCid;
         int UIDCnt = 0;
         public bool running=false;
 
+        public string loadMap;
+
+
         //Testing properties
         public int myFirstUnit;
         
+        public Database db;
+        public UserInputSystem userInput;
 
-        public Game1(NetworkModule net, int cid, int enemyCid,string Map)
+        public UnitDataLoader unitDataLoader;
+
+        public static Random rnd = new Random();
+        
+
+        public Game1(NetworkModule net, int cid, int enemyCid,string map)
         {
+            this.debugger = new Debugger(this);
+            this.loadMap = map;
             this.cid = cid;
             this.enemyCid = enemyCid;
             this.Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             this.network = net;
             this.messageHandler = new MessageHandler(this,this.network);
+            this.db = new Database("Data Source=OppoClient.sdf");
             //this.OnExiting+=
             //Mouse Scrolling testing
             this.mouseState = Mouse.GetState();
             this.prevMouseState = mouseState;
 
-            this.cellSize = new Coordinates(40, 40);
-            this.worldMapSize = new Coordinates(800, 800); // set back to 10240/10240
+            this.cellSize = new WorldCoords(40, 40);
+            this.worldMapSize = new WorldCoords(5000, 5000); // set back to 10240/10240
 
+            //this.worldMapSize = new WorldCoords(40*20, 40*20); // set back to 10240/10240
+
+
+            this.userInput = new UserInputSystem(this);
             this.render = new RenderSystem(this);
+            this.graphContent = new GraphContentManager(this);
             this.theGrid = new Grid(this);
-            this.debugger = new Debugger(this);
+            this.pathFinder = new PathFinder(this.theGrid);
             this.map = new GameMap(this);
-
-            //Testing setting up obstacles
-            this.theGrid.fillRectValues(new GridCoords(1, 3), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(10, 5), new Coordinates(10, 1), -1);
-            this.theGrid.fillRectValues(new GridCoords(1, 7), new Coordinates(10, 1), -1);
-            this.map.Add(new PathFinderTest(this.cid,this.CreateUID()));
-
-            OppoMessage msg = new OppoMessage(OppoMessageType.CreateUnit);
-            msg["uid"] = this.myFirstUnit = this.CreateUID();
-            this.AddCommand(msg);
+            this.unitDataLoader = new UnitDataLoader(this);
             
             //unit.task.Add(new _Movement(unit, new WorldCoords(500, 500)));
 
@@ -98,8 +109,7 @@ namespace OppoCraft
                 }
             }
             /**/
-            if(Map!=null)
-            this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
+
         }
 
         public int CreateUID()
@@ -128,8 +138,132 @@ namespace OppoCraft
         protected override void LoadContent()
         {                       
             this.render.LoadContent();
+            //this.map.Add(new PathFinderTest());
+            this.map.Add(new Background());
+            this.map.Add(new MiniMap());
+            
+            if(this.loadMap!=null)
+            {
+                this.LoadMap();
+                this.network.Flush();
+                Thread.Sleep(1000);
+                this.AddCommand(new OppoMessage(OppoMessageType.StartGame));
+            }
             
         }
+
+
+        public void LoadMap()
+        {
+            //Testing setting up obstacles
+            //this.theGrid.fillRectValues(new GridCoords(1, 3), new GridCoords(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(10, 5), new GridCoords(10, 1), -1);
+            //this.theGrid.fillRectValues(new GridCoords(1, 7), new GridCoords(10, 1), -1);
+
+
+            Random rnd = new Random();
+            OppoMessage msg;
+            int tmp;
+
+            
+            
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["x"] = 100;
+            msg["y"] = 100; 
+            msg.Text["class"] = "EntityEnvironment";
+            this.AddCommand(msg);
+
+            
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"]= this.CreateUID();
+            msg["x"] = 200;
+            msg["y"] = 3400;
+            msg.Text["class"] = "EntityForest";
+            this.AddCommand(msg);
+            
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["x"] = 1900;
+            msg["y"] = 1900;
+            msg.Text["class"] = "EntityForest";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["x"] = 3400;
+            msg["y"] = 200;
+            msg.Text["class"] = "EntityForest";
+            this.AddCommand(msg);
+
+            
+            for (int i = 0; i < 50; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Knight";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < 50; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Knight";
+                this.AddCommand(msg);
+            }
+            
+            for (int i = 0; i < 50; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Lumberjack";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < 50; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Lumberjack";
+                this.AddCommand(msg);
+            }
+            
+            for (int i = 0; i < 50; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Archer";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < 50; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(1, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(1, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Archer";
+                this.AddCommand(msg);
+            }
+            /**/
+            
+        }
+
+        
 
 
         /// <summary>
@@ -152,12 +286,29 @@ namespace OppoCraft
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            //Keys[] keys =this.userInput.keyboard.GetPressedKeys();
+            //debugger.AddMessage(String.Join("",keys));
+
+            if (this.userInput.keyboard.IsKeyDown(Keys.Escape))
+            {
+                this.Exit();
+            }
+
+
+            if (this.userInput.isKeyPressed(Keys.F10))
+            {
+                this.render.ToggleFullScreen();
+            }
+
             // TODO: Add your update logic here
+
             this.mouseState = Mouse.GetState();
             this.scrollValue += (this.prevMouseState.ScrollWheelValue - this.mouseState.ScrollWheelValue) / 12;
             this.prevMouseState = this.mouseState;
             this.debugger.scrollRow = scrollValue;
 
+
+            this.userInput.Tick();
             messageHandler.Tick();
             if(this.running)
                 this.map.Tick();
@@ -174,14 +325,13 @@ namespace OppoCraft
         protected override void Draw(GameTime gameTime)
         {         
             this.render.Render(gameTime);
-
             base.Draw(gameTime);
         }
 
 
         public void AddCommand(OppoMessage msg)
         {
-            msg["cid"] = this.cid;
+            //msg["cid"] = this.cid;
             this.network.Send(msg);
         }
 

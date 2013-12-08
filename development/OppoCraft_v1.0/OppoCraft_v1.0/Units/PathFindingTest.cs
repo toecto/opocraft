@@ -11,12 +11,10 @@ namespace OppoCraft
         WorldPath aPath=null;
         GridCoords lastSpot = new GridCoords(0,0);
 
-        public PathFinderTest(int uid)
+        public override void onStart()
         {
-            this.location = new WorldCoords(100, 100);
-            this.uid = uid;
+            this.location.Y = this.theGame.worldMapSize.Y;//to render last
         }
-
 
         public override void Tick()
         {
@@ -27,8 +25,8 @@ namespace OppoCraft
             if (!test.Equals(this.lastSpot))
             {
                 this.lastSpot = test;
-
-                foreach(KeyValuePair<int,MapEntity> item in this.theGame.map)
+                this.aPath = this.theGame.pathFinder.GetPath(new WorldCoords(60, 60), this.theGame.theGrid.getWorldCoords(test),0);
+                foreach(KeyValuePair<int,MapEntity> item in this.theGame.map.entities)
                 {
                     if (item.Value.GetType() != typeof(Unit)) continue;
                     Unit unit = (Unit)item.Value;
@@ -37,7 +35,7 @@ namespace OppoCraft
                     WorldCoords origCoord = unit.location;
                     WorldCoords destination = this.theGame.theGrid.getWorldCoords(test);
 
-                    //this.aPath = this.theGame.pathFinder.GetPath(origCoord, destination);
+                    
                     //u.task.Add(new TaskGoTo(destination));
                 }
             }
@@ -65,16 +63,17 @@ namespace OppoCraft
                 for (int y = 0; y < this.theGame.theGrid.gridValues.GetLength(1); y++)
                 {
                     Vector2 position = this.theGame.render.getScreenCoords(this.theGame.theGrid.getWorldCoords(new GridCoords(x, y)));
-                    position.X-=this.theGame.render.primRect.Width/2;
-                    position.Y -= this.theGame.render.primRect.Height/ 2; 
                     color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
                     if (color < 0)
                     {
                         render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
                         render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
                     }
-                    //else
-                      //  render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
+                    else
+                    {
+                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
+                        render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
+                    }
                 }
             }
             

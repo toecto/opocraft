@@ -29,7 +29,7 @@ namespace OppoCraft
             if (!this.unit.alive && this.status == Status.Adult)
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
-                msg.Text["startact"] = "Die";
+                msg.Text["onlyact"] = "Die";
                 msg.Text["status"] = "ReadyToCollect";
                 this.unit.AddCommand(msg);
                 this.status = Status.Died;
@@ -39,7 +39,7 @@ namespace OppoCraft
             {
                 OppoMessage msg = new OppoMessage(OppoMessageType.ChangeState);
                 msg.Text["status"] = "Collected";
-                msg.Text["startact"] = "Collected";
+                msg.Text["startactforced"] = "Collected";
                 this.unit.AddCommand(msg);
             }
 

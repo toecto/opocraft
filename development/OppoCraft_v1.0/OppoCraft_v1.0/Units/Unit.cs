@@ -26,8 +26,9 @@ namespace OppoCraft
        
         public TaskManager task;
         public UnitAnimation animation;
-        
+
         public string type;
+        public string group;
         public string status;
 
         public Direction direction;
@@ -38,74 +39,93 @@ namespace OppoCraft
         public int damage = 5;
         public int armour = 1;
         public int attackSpeed = 30;
-        public int attackRange = 50;
-        public int viewRange = 50;
-        public bool isMy;
-        public bool isServed;
+        public int attackRange = 1;
+        public int viewRange = 15;
+        public int viewRangeSqr { get {return this.viewRange*this.viewRange;}}
+        public int attackRangeSqr { get { return this.attackRange * this.attackRange; } }
+        public double speedSqr { get { return this.speed * this.speed; } }
 
-        public Unit(OppoMessage settings)
+        public bool isObstacle;
+
+        public Unit() { } // Default constructor
+
+        public Unit(Game1 theGame, OppoMessage settings)
+            : base(theGame,settings)
         {
-            this.settings = settings;
             this.direction = Direction.East;
-            this.cid = this.settings["ownercid"];
-            this.uid = this.settings["uid"];
-            
 
             this.type = this.settings.Text["type"];
-            this.location = new WorldCoords(this.settings["x"], this.settings["y"]);
+            if(this.settings.Text.ContainsKey("status"))
+                this.status = this.settings.Text["status"];
             this.task = new TaskManager(this);
+
+            if (this.type == "Archer")
+            {
+                this.attackRange = 10;
+                this.attackSpeed = 100;
+            }
+            this.theGame.unitDataLoader.Load(this, this.type);
+        }
+
+        
+
+        public override void onFinish()
+        {
+            this.CleanGridValue();
         }
 
         public override void onStart()
         {
-            this.isMy = this.settings["ownercid"] == this.theGame.cid;
-            this.isServed = this.settings["ownercid"] == 0 && this.theGame.loadMap!=null;
-
-            this.animation = this.theGame.graphContent.GetUnitAnimation(this, this.type);
-            if (this.isMy || this.isServed)
-                this.addDriver();
-        }
-        public override void onFinish()
-        {
-            this.SetGridValue(0);
-        }
-
-        private void addDriver()
-        {
-            switch (this.type)
-            {
-                case "Knight":
-                    this.task.Add(new TaskKnightDriver());
-                    break;
-                case "Archer":
-                    this.task.Add(new TaskKnightDriver());
-                    break;
-                case "Tree":
-                    this.task.Add(new TaskTreeDriver());
-                    break;
-            }
+             this.SetGridValue();
         }
 
 
         public virtual void SetGridValue(int val)
         {
-            this.theGame.theGrid.fillRectValues(this.location, this.size, val);
+
+                GridCoords start = this.locationGrid;
+                GridCoords size = this.sizeGrid;
+                start.X -= size.X / 2;
+                start.Y -= size.Y - 1;
+                this.theGame.theGrid.fillRectValues(start, size, val);
+
+        }
+
+        public virtual void SetGridValue()
+        {
+            if (this.isObstacle)
+            {
+                this.SetGridValue(-this.uid);
+            }
+        }
+
+        public virtual void CleanGridValue()
+        {
+            if (this.isObstacle)
+            {
+                this.SetGridValue(0);
+            }
         }
 
         public override void Tick()
         {
-            this.SetGridValue(0);
+
+            this.CleanGridValue();
+            
             this.task.Tick();
-            this.animation.Tick();
-            this.SetGridValue(-this.uid);
+            
+            if (this.animation != null)
+                this.animation.Tick();
+
+            this.SetGridValue();
         }
 
         public override void Render(RenderSystem render)
         {
-            this.animation.Render(render);
-            if(this.type != "System")
+            if (animation != null)
             {
-                UnitAnimationAdditions.Render(this,render);
+                this.animation.Render(render);
+                UnitAnimationAdditions.Render(this, render);
             }
         }
 
@@ -132,5 +152,7 @@ namespace OppoCraft
             return this.status[name];
         }
         */
+
+        
     }
 }
