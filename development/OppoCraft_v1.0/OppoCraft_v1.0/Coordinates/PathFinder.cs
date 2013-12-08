@@ -9,68 +9,71 @@ namespace OppoCraft
    public class PathFinder
     {
         Grid theGrid;
-        Game1 theGame;
 
         //set of coordinates with the value to apply during path finding algorithm
         public int[,] pathValues = new int[,] 
         {
             {0, -1, 2}, {1, 0, 2}, {0, 1, 2}, {-1, 0, 2},
             {-1, -1, 3}, {1,- 1, 3}, {1, 1, 3}, {-1, 1, 3},
-
-            
         };
 
 
-        public PathFinder(Grid g, Game1 game)
+        public PathFinder(Grid g)
         {
             this.theGrid = g;
-            this.theGame = game;
         }
 
         // orig == Origin coordiantes, dest == Destination coordinates
-        public WorldPath GetPath(WorldCoords orig, WorldCoords dest)
+        public WorldPath GetPath(WorldCoords orig, WorldCoords dest, int range=0)
         {
+            
             this.theGrid.resetGridValues();
             GridCoords origGrid = this.theGrid.getGridCoords(orig);
             GridCoords destGrid = this.theGrid.getGridCoords(dest);
 
-            //if (this.theGrid.gridValues[origGrid.X, origGrid.Y]>=0)
-            this.theGrid.gridValues[origGrid.X, origGrid.Y ]=1; //set orginal grid cell value to 1
-               // return null;
+            WorldPath result = null;
 
-            if (this.SetValues(origGrid, destGrid))
-                return this.SetPath(origGrid, destGrid);
-            
-            return null;
+            if (this.SetValues(origGrid, destGrid, range))
+                result = this.SetPath(origGrid, destGrid);
+            if (result!=null && result.Count < 2 && origGrid.Distance(destGrid) > 20)
+            {
+                ;
+            }
+            return result;
         }
 
 
         //takes a Path (collection of Grid Coords) and applies the values from pathValues to the surrounding cells 
         //for each Grid Coord, using the pathValues array
-        public bool SetValues(GridCoords orig, GridCoords dest)
+        public bool SetValues(GridCoords orig, GridCoords dest, int range)
         {
+            range *= range;
             GridPath cellQue = new GridPath(), newCellQue;
+            this.theGrid.gridValues[orig.X, orig.Y] = 1; //set orginal grid cell value to 1
             cellQue.AddFirst(orig);
             int pathValLength = this.pathValues.GetLength(0);
+            int x, y, i, newValue, currentValue;
             while (cellQue.Count > 0)
             {
                 newCellQue=new GridPath();
                 foreach (GridCoords gridCoords in cellQue)
                 {
-                    int currentValue = this.theGrid.gridValues[gridCoords.X, gridCoords.Y];
-                    for (int i = 0; i < pathValLength; i++)
+                    currentValue = this.theGrid.gridValues[gridCoords.X, gridCoords.Y];
+                    for (i = 0; i < pathValLength; i++)
                     {
-                        int x = gridCoords.X + this.pathValues[i, 0];
-                        int y = gridCoords.Y + this.pathValues[i, 1];
-                        int newValue = currentValue + this.pathValues[i, 2];
+                        x = gridCoords.X + this.pathValues[i, 0];
+                        y = gridCoords.Y + this.pathValues[i, 1];
+                        newValue = currentValue + this.pathValues[i, 2];
 
                         if (this.theGrid.gridValues[x, y] == 0)
                         {
                             this.theGrid.gridValues[x, y] = newValue;
                             newCellQue.AddLast(new GridCoords(x, y));
 
-                            if (x == dest.X && y == dest.Y)
+                            if((int)dest.DistanceSqr(x,y)<=range)
                             {
+                                dest.X = x;
+                                dest.Y = y;
                                 return true;
                             }
                         }
@@ -87,51 +90,60 @@ namespace OppoCraft
         public WorldPath SetPath(GridCoords orig, GridCoords dest)
         {
             WorldPath path = new WorldPath();
-            path.AddFirst(this.theGrid.getWorldCoords(dest));
-            int pathValLength = this.pathValues.GetLength(0);
-
-            GridCoords baseCoord = dest;
-            bool isCornerAround;
-             
-            while (orig.X != baseCoord.X || orig.Y != baseCoord.Y)
+            GridCoords current = dest;
+            int cnt=0;
+            //Debug.WriteLine("Start!");
+            while (current != null)
             {
-                GridCoords minCoord=null;
-                int minValue = 0;
-                isCornerAround = false;
-                for (int i = 0; i < pathValLength; i++)
+                cnt++;
+                if (cnt > 1000)
                 {
-                    if (isCornerAround && this.pathValues[i, 2] == 3)
-                        break;
-                    GridCoords nextCoord = new GridCoords(baseCoord.X + this.pathValues[i, 0], baseCoord.Y + this.pathValues[i, 1]);
-                    
-                    int nextVal = this.theGrid.getGridValue(nextCoord);
-                    if (nextVal == -1 && this.pathValues[i, 2] == 2)
-                    {
-                        isCornerAround = true;
-                    }
-                    else
-                    {
-                        if (nextVal < minValue && nextVal > 0 || minValue ==0)
-                        {
-                            minCoord = nextCoord;
-                            minValue = nextVal;
-                        }
-                        else
-                        {
-                            if (nextVal == minValue && nextCoord.Distance(orig) < minCoord.Distance(orig))
-                            {
-                                minCoord = nextCoord;
-                                minValue = nextVal;
-                            }
-                        }
-                    }
+                    Debug.WriteLine("Achtung!");
                 }
-
-                path.AddFirst(this.theGrid.getWorldCoords(minCoord));
-                baseCoord = minCoord;
+                path.AddFirst(this.theGrid.getWorldCoordsCenter(current));
+                current = this.makeNextStep(current, orig);
+                
             }
-            
+            if (!this.theGrid.getGridCoords(path.First.Value).Equals(orig)) 
+                return null;//did not get to the end
+
+            path.RemoveFirst();
             return path;
         }
+
+        private GridCoords makeNextStep(GridCoords current, GridCoords orig)
+        {
+
+            GridCoords minCoord = null;
+            int minValue = this.theGrid.getGridValue(current);
+            bool isCornerAround = false;
+            int pathValLength = this.pathValues.GetLength(0);
+
+            for (int i = 0; i < pathValLength; i++)
+            {
+                if (isCornerAround && this.pathValues[i, 2] == 3)
+                    break;
+                GridCoords nextCoord = new GridCoords(current.X + this.pathValues[i, 0], current.Y + this.pathValues[i, 1]);
+
+                int nextVal = this.theGrid.getGridValue(nextCoord);
+                if (nextVal < 0 && this.pathValues[i, 2] == 2)
+                {
+                    isCornerAround = true;
+                }
+                else
+                {
+                    if (nextVal < minValue && nextVal > 0)
+                    {
+                        minCoord = nextCoord;
+                        minValue = nextVal;
+                    }
+                }
+            }
+            //if (minCoord!=null)
+            //Debug.WriteLine("minCoord! " + minCoord.X + " " + minCoord.Y + " " + this.theGrid.getGridValue(minCoord));
+
+            return minCoord;
+        }
+
     }
 }

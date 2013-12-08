@@ -8,17 +8,14 @@ namespace OppoCraft
     public class Grid
     {
         Game1 theGame;
-        public PathFinder thePathFinder;
-        
-        public Coordinates gridSize;       
+
+        public GridCoords gridSize;       
         public int[,] gridValues;
 
         public Grid(Game1 g)
         {
             this.theGame = g;
-            this.thePathFinder = new PathFinder(this, theGame);
-
-            this.gridSize = new Coordinates(this.theGame.worldMapSize.X / this.theGame.cellSize.X, this.theGame.worldMapSize.Y / this.theGame.cellSize.Y);
+            this.gridSize = new GridCoords(this.theGame.worldMapSize.X / this.theGame.cellSize.X, this.theGame.worldMapSize.Y / this.theGame.cellSize.Y);
             this.gridValues = new int[this.gridSize.X, this.gridSize.Y];
             this.initGridValues();
         }
@@ -27,12 +24,26 @@ namespace OppoCraft
         public int getGridValue(GridCoords gc)
         {
             return this.gridValues[gc.X, gc.Y];
+        }        //returns the int value for the coordiante on the grid
+        public int getGridValue(WorldCoords wc)
+        {
+            return getGridValue(this.getGridCoords(wc));
         }
 
         //returns new WorldCoords based on Grid coordinates
         public WorldCoords getWorldCoords(GridCoords gc)
         {
+            return new WorldCoords(gc.X * this.theGame.cellSize.X, gc.Y * this.theGame.cellSize.Y);
+        }
+        //returns new WorldCoords based on Grid coordinates
+        public WorldCoords getWorldCoordsCenter(GridCoords gc)
+        {
             return new WorldCoords(gc.X * this.theGame.cellSize.X + this.theGame.cellSize.X / 2, gc.Y * this.theGame.cellSize.Y + this.theGame.cellSize.Y / 2);
+        }
+        //returns new WorldCoords based on Grid coordinates
+        public WorldCoords getWorldCoordsRnd(GridCoords gc)
+        {
+            return new WorldCoords(gc.X * this.theGame.cellSize.X + Game1.rnd.Next(0, this.theGame.cellSize.X), gc.Y * this.theGame.cellSize.Y + Game1.rnd.Next(0, this.theGame.cellSize.Y));
         }
 
         //returns new Grid with coordinates based on WorldCoords parameter
@@ -42,11 +53,17 @@ namespace OppoCraft
         }
 
         //returns new Grid with coordinates based on WorldCoords parameter
-        public void fillRectValues(GridCoords p, Coordinates s, int v)
+        public void fillRectValues(WorldCoords p, WorldCoords s, int v)
         {
-            for (int x = p.X; x < s.X + p.X; x++)
+            this.fillRectValues(this.getGridCoords(p), this.getGridCoords(s), v);
+        }
+        
+        public void fillRectValues(GridCoords p, GridCoords s, int v)
+        {
+            int limitX = s.X + p.X, limitY = s.Y + p.Y;
+            for (int x = p.X; x < limitX; x++)
             {
-                for (int y = p.Y; y < s.Y + p.Y; y++)
+                for (int y = p.Y; y < limitY; y++)
                 {
                     this.gridValues[x, y] = v;
                 }
@@ -57,8 +74,9 @@ namespace OppoCraft
         public void initGridValues()
         {
             this.fillRectValues(new GridCoords(0, 0), this.gridSize, -1);
-            this.fillRectValues(new GridCoords(1, 1), new Coordinates(this.gridSize.X - 2, this.gridSize.Y - 2), 0);
+            this.fillRectValues(new GridCoords(1, 1), new GridCoords(this.gridSize.X - 2, this.gridSize.Y - 2), 0);
         }
+
         public void resetGridValues()
         {
             for (int x = 0; x < this.gridSize.X; x++)

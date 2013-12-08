@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace OppoCraft
 {
@@ -24,7 +16,16 @@ namespace OppoCraft
 
         public double Distance(Coordinates c)
         {
-            return Math.Sqrt(Math.Pow(c.X - this.X, 2) + Math.Pow(c.Y - this.Y, 2));
+            return this.Distance(c.X, c.Y);
+        }
+
+        public double Distance(int x, int y)
+        {
+            return Math.Sqrt(this.DistanceSqr(x,y));
+        }
+        public double DistanceSqr(int x, int y)
+        {
+            return (x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y);
         }
 
         public Vector2 getVector2()
@@ -40,7 +41,13 @@ namespace OppoCraft
 
         public bool Equals(Coordinates test)
         {
-            return (this.X == test.X) && (this.Y == test.Y);
+            return test!=null && (this.X == test.X) && (this.Y == test.Y);
+        }
+
+        public bool isIn(Coordinates start, Coordinates stop)
+        {
+            return this.X > start.X && this.X < stop.X
+                && this.Y > start.Y && this.Y < stop.Y;
         }
 
     }
