@@ -9,7 +9,7 @@ namespace testClient
         static void Main(string[] args)
         {
             Console.Write("Input server (Empty for localhost): ");
-            string server = Console.ReadLine();
+            string server = "";//Console.ReadLine();
             if (server == "") server = "127.0.0.1";
             TcpMessageClient client = new TcpMessageClient(server,8898);
             client.onMessage += readMessages;

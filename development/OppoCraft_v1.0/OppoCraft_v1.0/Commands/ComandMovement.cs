@@ -12,7 +12,7 @@ namespace OppoCraft
     {
         Vector2 delta;//for a tick increment
         Vector2 location;
-        Vector2 destination;
+        public Vector2 destination;
 
         public CommandMovement(OppoMessage msg)
         {
@@ -24,8 +24,12 @@ namespace OppoCraft
             this.location = this.unit.location.getVector2();
             
             float distance = Vector2.Distance(this.location, this.destination);
+            if (distance > 200)
+            {
+                Debug.WriteLine("WTF!!");
+            }
             this.delta = Vector2.Divide(Vector2.Subtract(this.destination, this.location),distance);
-            this.unit.direction = deltaToDirection(this.delta);
+            this.unit.direction = vectorToDirection(this.delta);
             this.unit.animation.startAction("Walk");
         }
 
@@ -50,7 +54,7 @@ namespace OppoCraft
             
         }
 
-        public static Unit.Direction deltaToDirection(Vector2 delta)
+        public static Unit.Direction vectorToDirection(Vector2 delta)
         {
             delta.Normalize();
             if (delta.X > 0)
