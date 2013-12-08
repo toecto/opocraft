@@ -9,7 +9,7 @@ namespace OppoCraft
     public class GameForm : GameFormControl
     {
         GameFormButton close;
-        public bool onScreen = false;
+        public bool onScreen=false;
         public GameForm()
         {
             this.parentForm = this;
@@ -23,7 +23,7 @@ namespace OppoCraft
             this.onScreen = true;
 
             this.theGame.unitSelector.enabled = false;
-
+            
             this.close.location.X = this.size.X - this.close.size.X;
             this.close.location.Y = 0;
             this.close.onClick += closeForm;
@@ -39,7 +39,7 @@ namespace OppoCraft
         {
             WorldCoords mouse = new WorldCoords(0, 0);
             mouse.setVector2(theGame.userInput.mousePosition);
-
+            
             if (this.theGame.userInput.mouseClicked)
             {
                 this.onClickEvent(mouse);

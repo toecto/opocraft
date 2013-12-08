@@ -11,7 +11,7 @@ namespace OppoCraft
         {
 
             Main,
-            Searching,
+            Search,
             Fighting
 
         }
@@ -22,13 +22,13 @@ namespace OppoCraft
         {
             if (this.status == Status.Main)
             {
-                this.status = Status.Searching;
+                this.status = Status.Search;
                 this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Tree" }, true));
                 this.unit.task.Add(new TaskPatrolArea(new WorldCoords(0, 0), this.unit.theGame.worldMapSize));
                 return true;
             }
 
-            if (this.status == Status.Searching && this.unit.task.checkShared("targetUnit"))
+            if (this.status == Status.Search && this.unit.task.checkShared("targetUnit"))
             {
                 this.status = Status.Fighting;
                 this.unit.task.Add(new TaskFight(this.unit.task.removeShared<Unit>("targetUnit")));

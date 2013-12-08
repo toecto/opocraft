@@ -40,14 +40,13 @@ namespace OppoCraft
 
             double minDistance = 0, checkDistance;
             Unit target=null;
-            int range = this.unit.theGame.theGrid.getWorldCoords(new GridCoords(this.unit.viewRange, 0)).X;
-            WorldCoords start = new WorldCoords(this.unit.location.X - range / 2, this.unit.location.Y - range / 2);
-            WorldCoords end = new WorldCoords(start.X + range, start.Y + range);
+
+            WorldCoords range = this.unit.theGame.theGrid.getWorldCoords(new GridCoords(this.unit.viewRange, this.unit.viewRange)); 
             foreach (Unit unit in this.unit.theGame.map.units)
             {
                 if (unit.cid == this.unit.cid && !anySide) continue;
                 if (unit.uid == this.unit.uid) continue;
-                if (!unit.location.isIn(start, end)) continue;
+                if (!unit.location.isInCentered(this.unit.location, range)) continue;
                 if (!unit.alive) continue;
                 if (!this.type.Contains(unit.type)) continue;
                 if (this.ignore.Contains(unit.uid)) continue;

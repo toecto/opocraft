@@ -20,7 +20,7 @@ namespace OppoCraft
             this.factorySettings["attackrange"] = 1;
             this.factorySettings["viewrange"] = 1;
             this.factorySettings["speed"] = 1;
-            this.factorySettings["armor"] = 1;  
+            this.factorySettings["armor"] = 1;
             this.factorySettings["viewrange"] = 1;
             this.factorySettings["buildspeed"] = 1;
             this.factorySettings.Text["targets"] = "";

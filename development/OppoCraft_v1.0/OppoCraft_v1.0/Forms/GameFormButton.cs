@@ -6,12 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    class GameFormButton : GameFormControl
+    class GameFormButton: GameFormControl
     {
         string _text;
         public string Text { get { return _text; } set { this._text = value; this.size.X = this._text.Length * 10 + 10; } }
-
-
+        
+        
         Color color;
         public GameFormButton(string text)
         {
@@ -43,7 +43,7 @@ namespace OppoCraft
             render.DrawText(this._text, new Vector2(position.X + 5, position.Y + 3), Color.White);
             base.Render(render);
         }
-
+        
 
     }
 }

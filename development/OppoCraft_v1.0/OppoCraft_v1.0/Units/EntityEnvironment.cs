@@ -6,7 +6,7 @@ using testClient;
 
 namespace OppoCraft
 {
-    public class EntityEnvironment : MapEntity
+    public class EntityEnvironment: MapEntity
     {
         public EntityEnvironment(Game1 theGame, OppoMessage message)
             : base(theGame, message)
@@ -15,7 +15,7 @@ namespace OppoCraft
 
         public override void onStart()
         {
-            this.location = new WorldCoords(0, 0);
+            this.location = new WorldCoords(0,0);
             this.size = this.theGame.worldMapSize;
             string[] objects = { "House", 
 "Barack", 
@@ -47,10 +47,10 @@ namespace OppoCraft
                 OppoMessage msg = new OppoMessage(OppoMessageType.CreateEntity);
                 msg["uid"] = this.theGame.CreateUID();
                 msg["ownercid"] = 0;
-                treePosition = this.theGame.theGrid.getWorldCoordsCenter(new GridCoords(+Game1.rnd.Next(4, limits.Y), +Game1.rnd.Next(4, limits.Y)));
+                treePosition = this.theGame.theGrid.getWorldCoordsCenter(new GridCoords( + Game1.rnd.Next(4, limits.Y),  + Game1.rnd.Next(4, limits.Y)));
                 msg["x"] = treePosition.X + this.location.X;
                 msg["y"] = treePosition.Y + this.location.Y;
-                msg.Text["type"] = objects[Game1.rnd.Next(0, objects.Count())];
+                msg.Text["type"] = objects[Game1.rnd.Next(0,objects.Count())];
                 this.theGame.AddCommand(msg);
             }
         }

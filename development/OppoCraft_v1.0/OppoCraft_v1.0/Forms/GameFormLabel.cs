@@ -17,7 +17,7 @@ namespace OppoCraft
             this.color = Color.White;
         }
 
-  
+
         public override void Render(RenderSystem render)
         {
             Coordinates position = this.ScreenPosition();

@@ -30,7 +30,7 @@ namespace OppoCraft
         public Rectangle getFrame(int number)
         {
 
-            return new Rectangle((this.startX + number) * this.file.width, this.startY * this.file.height, this.file.width, this.file.height);
+            return new Rectangle((this.startX + number) * this.file.size.X, this.startY * this.file.size.Y, this.file.size.X, this.file.size.Y);
         }
 
         public bool Tick()
@@ -60,8 +60,8 @@ namespace OppoCraft
         public void Render(RenderSystem render, Vector2 position)
         {
             this.Tick();
-            position.X -= this.file.width / 2;
-            position.Y -= this.file.height - 20;
+            position.X -= this.file.size.X / 2;
+            position.Y -= this.file.size.Y - 20;
             render.Draw(this.file.texture, position, getFrame(this.currentFrame), Microsoft.Xna.Framework.Color.White);
         }
 

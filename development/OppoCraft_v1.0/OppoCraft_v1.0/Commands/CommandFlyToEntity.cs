@@ -38,9 +38,11 @@ namespace OppoCraft
 
         public override bool Tick()
         {
+            if (this.target == null) return false;
+
             if (!this.destination.Equals(target.location.getVector2()))
             {
-                this.onStart();
+                this.init();
             }
 
             if (Vector2.DistanceSquared(this.location, this.destination) <= this.unit.speedSqr)

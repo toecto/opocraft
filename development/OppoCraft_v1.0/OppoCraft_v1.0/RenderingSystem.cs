@@ -19,7 +19,10 @@ namespace OppoCraft
        private SpriteBatch spriteBatch;
        public SpriteFont font;
        public SpriteFont fontSmall;
-       public Texture2D primRect;
+       public Texture2D primRect50;
+       public Texture2D primRect70;
+       public Texture2D primCircle;
+       public Texture2D primCircle100;
        public Texture2D primDot;
        
        public Coordinates scroll = new Coordinates(0, 0);
@@ -50,7 +53,7 @@ namespace OppoCraft
                 this.size = new Coordinates(this.theGame.Window.ClientBounds.Width, this.theGame.Window.ClientBounds.Height);
            Coordinates saveScroll = this.scroll;
            Coordinates worldSizeOnScreen = new Coordinates(0, 0);
-           worldSizeOnScreen.setVector2(this.getAbsScreenCoords(this.theGame.worldMapSize));
+           worldSizeOnScreen.setVector2(this.getScreenCoordsAbs(this.theGame.worldMapSize));
            this.scroller = new SmoothScroller(this.theGame.userInput, this.scroll, worldSizeOnScreen, this.size);
        }
 
@@ -74,9 +77,11 @@ namespace OppoCraft
            this.spriteBatch = new SpriteBatch(this.theGame.GraphicsDevice);
 
            this.primDot = this.theGame.Content.Load<Texture2D>("dot");
-           this.primRect = this.theGame.Content.Load<Texture2D>("Prim_Rect");
-           //testKnight = this.theGame.Content.Load<Texture2D>("BlueKnight");
-           // Load the font from xml file
+           this.primRect50 = this.theGame.Content.Load<Texture2D>("Prim_Rect50");
+           this.primRect70 = this.theGame.Content.Load<Texture2D>("Prim_Rect70");
+           this.primCircle = this.theGame.Content.Load<Texture2D>("Prim_Circle");
+           this.primCircle100 = this.theGame.Content.Load<Texture2D>("Prim_Circle100");
+
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
            this.fontSmall = this.theGame.Content.Load<SpriteFont>("smallFont");
 
@@ -98,15 +103,16 @@ namespace OppoCraft
            this.spriteBatch.Begin();
 
            this.theGame.map.Render(this);
-
+           this.theGame.forms.Render(this);
            this.theGame.debugger.RenderMessages();
            this.spriteBatch.End();
        }
 
-       public void DrawText(string msg, Vector2 position)
+       public void DrawText(string msg, Vector2 position, Color color=default(Color))
        {
+           if (color == default(Color)) color = Color.White;
            if (position.X < this.size.X && position.Y < this.size.Y && position.X > -100 && position.Y > -100)
-                this.spriteBatch.DrawString(font, msg, position, new Color(225, 225, 225));
+                this.spriteBatch.DrawString(font, msg, position, color);
        }
 
        public void DrawTextSmall(string msg, Vector2 position)
@@ -121,7 +127,7 @@ namespace OppoCraft
            return new Vector2(worldCoords.X - scroll.X, (int)(worldCoords.Y * this.kY - scroll.Y));
        }
        //paramater is for screen coordinates, used to shift the coordinates
-       public Vector2 getAbsScreenCoords(WorldCoords worldCoords)
+       public Vector2 getScreenCoordsAbs(WorldCoords worldCoords)
        {
            return new Vector2(worldCoords.X, (int)(worldCoords.Y * this.kY));
        }
@@ -132,7 +138,7 @@ namespace OppoCraft
             return new WorldCoords((int)screen.X + scroll.X, (int)((screen.Y + scroll.Y) / this.kY));
         }
         //paramaters are for the screen, and scroll coords, to convert from screen to World
-        public WorldCoords getAbsWorldCoords(Vector2 screen)
+        public WorldCoords getWorldCoordsAbs(Vector2 screen)
         {
             return new WorldCoords((int)screen.X, (int)((screen.Y) / this.kY));
         }

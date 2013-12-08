@@ -10,7 +10,7 @@ namespace OppoCraft
     {
         public Game1 theGame;
         public WorldCoords size = new WorldCoords(40, 40);
-        public WorldCoords location = new WorldCoords(1, 1);
+        public WorldCoords location = new WorldCoords(0, 0);
         public OppoMessage settings;
 
         public int uid = 0;
@@ -41,7 +41,7 @@ namespace OppoCraft
             this.cid = settings["ownercid"];
             this.location = new WorldCoords(settings["x"], settings["y"]);
             this.isMy = (this.cid == this.theGame.cid);
-            this.isServed = (this.cid == 0 && this.theGame.loadMap != null);
+            this.isServed = this.cid == 0 || (this.cid == this.theGame.enemyCid && this.theGame.loadMap != null);
         }
 
         public virtual void onStart()

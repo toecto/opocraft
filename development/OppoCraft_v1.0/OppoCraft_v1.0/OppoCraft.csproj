@@ -140,10 +140,23 @@
     <Compile Include="Animation\GraphContentManager.cs" />
     <Compile Include="Animation\UnitAnimationAdditions.cs" />
     <Compile Include="Animation\UnitAnimation.cs" />
+    <Compile Include="Castle\CastleForm.cs" />
+    <Compile Include="Castle\TaskCastleDriver.cs" />
+    <Compile Include="Castle\UnitCastle.cs" />
     <Compile Include="Commands\CommandChangeUnitState.cs" />
     <Compile Include="Commands\CommandFlyToEntity.cs" />
     <Compile Include="Commands\CommandTreeGrow.cs" />
     <Compile Include="Coordinates\Coordinates.cs" />
+    <Compile Include="Forms\GameFormCheckButton.cs" />
+    <Compile Include="Forms\GameFormCheckGroup.cs" />
+    <Compile Include="Forms\GameFormLabel.cs" />
+    <Compile Include="Forms\GameForm.cs" />
+    <Compile Include="Forms\GameFormControl.cs" />
+    <Compile Include="Forms\GameFormControlCollection.cs" />
+    <Compile Include="Forms\GameFormButton.cs" />
+    <Compile Include="Forms\GameFormRadioButton.cs" />
+    <Compile Include="Forms\GameFormRadioGroup.cs" />
+    <Compile Include="Forms\GameFormUpDown.cs" />
     <Compile Include="SmoothScroller.cs" />
     <Compile Include="Task\TaskArcherDriver.cs" />
     <Compile Include="Task\TaskFactory.cs" />
@@ -157,10 +170,13 @@
     <Compile Include="Task\TaskPatrol.cs" />
     <Compile Include="Task\TaskPatrolArea.cs" />
     <Compile Include="Task\TaskShellDriver.cs" />
+    <Compile Include="Task\TaskTowerDriver.cs" />
     <Compile Include="Task\TaskTreeDriver.cs" />
     <Compile Include="Units\Background.cs" />
     <Compile Include="Units\EntityEnvironment.cs" />
     <Compile Include="Units\EntityFactory.cs" />
+    <Compile Include="Units\UnitDescription.cs" />
+    <Compile Include="Units\UnitSelector.cs" />
     <Compile Include="Units\UnitShell.cs" />
     <Compile Include="Units\GameMapLoader.cs" />
     <Compile Include="Units\MapEntity.cs" />
@@ -261,6 +277,7 @@
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

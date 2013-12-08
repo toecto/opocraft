@@ -15,8 +15,10 @@ namespace OppoCraft
         public MouseState mouse;
         public MouseState mouseOld;
         public Vector2 mouseCoordinatesDelta;
-        public Vector2 mouseCoordinates;
+        public Vector2 mousePosition;
+        public Coordinates mouseCoordinates;
         Vector2 mouseOldCoordinates;
+        public bool mouseClicked;
 
         public int arrowX,arrowY;
 
@@ -24,6 +26,7 @@ namespace OppoCraft
         {
             this.theGame = game;
             this.mouseOldCoordinates = new Vector2(0, 0);
+            this.mouseCoordinates = new Coordinates(0, 0);
             this.Tick();
         }
 
@@ -40,10 +43,11 @@ namespace OppoCraft
             this.mouseOld = this.mouse;
             this.mouse = Mouse.GetState();
 
-            this.mouseOldCoordinates = this.mouseCoordinates;
-            this.mouseCoordinates = new Vector2(this.mouse.X, this.mouse.Y);
+            this.mouseOldCoordinates = this.mousePosition;
+            this.mousePosition = new Vector2(this.mouse.X, this.mouse.Y);
+            this.mouseCoordinates.setVector2(this.mousePosition);
 
-            this.mouseCoordinatesDelta = Vector2.Subtract(this.mouseOldCoordinates, this.mouseCoordinates);
+            this.mouseCoordinatesDelta = Vector2.Subtract(this.mouseOldCoordinates, this.mousePosition);
 
             this.arrowX = 0;
             this.arrowY = 0;
@@ -51,7 +55,12 @@ namespace OppoCraft
             if (this.keyboard.IsKeyDown(Keys.Left)) this.arrowX--;
             if (this.keyboard.IsKeyDown(Keys.Up)) this.arrowY--;
             if (this.keyboard.IsKeyDown(Keys.Down)) this.arrowY++;
-            
+
+            if (this.mouseOld.LeftButton == ButtonState.Pressed && this.mouse.LeftButton == ButtonState.Released)
+                this.mouseClicked = true;
+            else
+                this.mouseClicked = false;
         }
+
     }
 }
