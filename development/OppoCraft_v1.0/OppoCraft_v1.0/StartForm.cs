@@ -30,13 +30,16 @@ namespace OppoCraft
             {
                 Program.network.Stop();
                 ConnectionStatus.Text = "Disconnected";
+                ConnectBtn.Text = "Connet";
             }
-            if (IPAddr.Text == "")
-                IPAddr.Text = "127.0.0.1";
-            if (!this.connect(IPAddr.Text))
-                ConnectionStatus.Text = "Failed to connect";
             else
             {
+                if (IPAddr.Text == "")
+                    IPAddr.Text = "127.0.0.1";
+                if (!this.connect(IPAddr.Text))
+                    ConnectionStatus.Text = "Failed to connect";
+                else
+                    ConnectBtn.Text = "Disconnet";
             }
         }
 
@@ -45,18 +48,26 @@ namespace OppoCraft
             if (Program.server != null)
             {
                 Program.server.Stop();
+                Program.server = null;
                 this.serverStatus.Text = "Stopped";
+                StartSrvBtn.Text = "Start Server";
             }
+            else
+            { 
             if (Program.network != null)
             {
                 Program.network.Stop();
                 ConnectionStatus.Text = "Disconnected";
             }
             Program.server = new OppoServer("0.0.0.0", 8898);
-            if(Program.server.Start())
+            if (Program.server.Start())
+            {
                 this.serverStatus.Text = "Started";
+                StartSrvBtn.Text = "Stop Server";
+            }
             else
                 this.serverStatus.Text = "Failed to start";
+            }
             
         }
 
@@ -109,10 +120,16 @@ namespace OppoCraft
             if (Program.server != null) //server-client
                 map = "main";
             int enemyCid=0;
-            if (this.clients.Count > 1)
+            
+            foreach(KeyValuePair<int,bool> item in this.clients)
             {
-                enemyCid = this.clients.Keys.ToArray()[1];
+                if (item.Key != this.cid)
+                {
+                    enemyCid = item.Key;
+                    break;
+                }
             }
+
             using (Game1 game = new Game1(Program.network, this.cid, enemyCid, map))
             {
                 game.Run();
@@ -160,7 +177,12 @@ namespace OppoCraft
             {
                 cntReady++;
             }
-            if (cntReady > 1)
+
+            int waitPlayers = 2;
+            if (onePlayerChk.Checked)
+                waitPlayers = 1;
+
+            if (cntReady == waitPlayers)
             {
                 return true;
             }

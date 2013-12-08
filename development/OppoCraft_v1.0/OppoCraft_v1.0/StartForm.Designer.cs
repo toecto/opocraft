@@ -35,6 +35,7 @@
             this.serverStatus = new System.Windows.Forms.Label();
             this.StartSrvBtn = new System.Windows.Forms.Button();
             this.ConnectedClients = new System.Windows.Forms.Label();
+            this.onePlayerChk = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // ConnectBtn
@@ -66,7 +67,7 @@
             // ConnectionStatus
             // 
             this.ConnectionStatus.AutoSize = true;
-            this.ConnectionStatus.Location = new System.Drawing.Point(152, 99);
+            this.ConnectionStatus.Location = new System.Drawing.Point(152, 126);
             this.ConnectionStatus.Name = "ConnectionStatus";
             this.ConnectionStatus.Size = new System.Drawing.Size(0, 13);
             this.ConnectionStatus.TabIndex = 3;
@@ -92,16 +93,29 @@
             // ConnectedClients
             // 
             this.ConnectedClients.AutoSize = true;
-            this.ConnectedClients.Location = new System.Drawing.Point(144, 125);
+            this.ConnectedClients.Location = new System.Drawing.Point(152, 152);
             this.ConnectedClients.Name = "ConnectedClients";
             this.ConnectedClients.Size = new System.Drawing.Size(0, 13);
             this.ConnectedClients.TabIndex = 7;
+            // 
+            // onePlayerChk
+            // 
+            this.onePlayerChk.AutoSize = true;
+            this.onePlayerChk.Checked = true;
+            this.onePlayerChk.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.onePlayerChk.Location = new System.Drawing.Point(155, 93);
+            this.onePlayerChk.Name = "onePlayerChk";
+            this.onePlayerChk.Size = new System.Drawing.Size(77, 17);
+            this.onePlayerChk.TabIndex = 8;
+            this.onePlayerChk.Text = "One player";
+            this.onePlayerChk.UseVisualStyleBackColor = true;
             // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(415, 271);
+            this.Controls.Add(this.onePlayerChk);
             this.Controls.Add(this.ConnectedClients);
             this.Controls.Add(this.serverStatus);
             this.Controls.Add(this.StartSrvBtn);
@@ -125,5 +139,6 @@
         private System.Windows.Forms.Label serverStatus;
         private System.Windows.Forms.Button StartSrvBtn;
         private System.Windows.Forms.Label ConnectedClients;
+        private System.Windows.Forms.CheckBox onePlayerChk;
     }
 }
