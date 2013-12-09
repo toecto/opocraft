@@ -6,12 +6,17 @@ using Microsoft.Xna.Framework;
 
 namespace OppoCraft
 {
-    class GameFormCheckButton : GameFormControl
+    public class GameFormCheckButton : GameFormControl
     {
         public string text;
         public Object value;
-        Color color;
-        public bool selected;
+        public Color color;
+        bool selectedValue;
+
+        public bool selected { 
+            get { return this.selectedValue; }
+            set { this.selectedValue = value; this.onChangeEvent(); }
+        }
 
         public GameFormCheckButton(string text, Object value)
         {
@@ -23,6 +28,12 @@ namespace OppoCraft
 
         public override void Render(RenderSystem render)
         {
+            this.Draw(render);
+            base.Render(render);
+        }
+
+        public virtual void Draw(RenderSystem render)
+        {
             Coordinates position = this.ScreenPosition();
             position.Y += 3;
             render.Draw(render.primRect70, position.getRectangle(new WorldCoords(12, 12)), render.primRect70.Bounds, color);
@@ -33,7 +44,12 @@ namespace OppoCraft
                 position.Y += 3;
                 render.Draw(render.primRect70, position.getRectangle(new WorldCoords(6, 6)), render.primRect70.Bounds, Color.Black);
             }
-            base.Render(render);
         }
+
+        public override void onClickEvent(WorldCoords mouse)
+        {
+            this.selected = !this.selected;
+        }
+
     }
 }

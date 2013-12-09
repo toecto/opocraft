@@ -32,7 +32,10 @@ namespace OppoCraft
                     return new UnitShell(theGame, message);
 
                 case "UnitCastle":
-                    return new UnitCastle(theGame,message);
+                    return new UnitCastle(theGame, message);
+
+                case "UnitObstacle":
+                    return new UnitObstacle(theGame, message);
 
                     
             }

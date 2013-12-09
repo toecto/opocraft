@@ -35,7 +35,7 @@ namespace OppoCraft
 
         public override bool Tick()
         {
-            if (Vector2.Distance(this.location, this.destination) <= this.unit.speed)
+            if (Vector2.Distance(this.location, this.destination) <= this.unit.speedReal)
             {
                 this.unit.location.setVector2(this.destination);
                 return false; 
@@ -49,7 +49,7 @@ namespace OppoCraft
 
         public void MoveHandler()
         {
-            this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speed));
+            this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speedReal));
             this.unit.location.setVector2(this.location);
             
         }

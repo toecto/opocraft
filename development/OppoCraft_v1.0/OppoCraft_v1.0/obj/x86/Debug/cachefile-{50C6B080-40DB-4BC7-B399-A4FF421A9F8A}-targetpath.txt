@@ -1,9 +1,8 @@
 Content\myFont.xnb
-Content\smallFont.xnb
-Content\Prim_Rect50.xnb
 Content\Animations\BlueKnight.xnb
-Content\dot.xnb
 Content\Animations\RedKnight.xnb
+Content\dot.xnb
+Content\smallFont.xnb
 Content\Animations\BlueArcher.xnb
 Content\Animations\Grass.xnb
 Content\Animations\RedArcher.xnb
@@ -12,6 +11,7 @@ Content\Animations\Decorations.xnb
 Content\Animations\Shell.xnb
 Content\Animations\BlueLumberjack.xnb
 Content\Animations\RedLumberjack.xnb
+Content\Prim_Rect50.xnb
 Content\Animations\BlueCastle.xnb
 Content\Animations\BlueTower.xnb
 Content\Animations\RedCastle.xnb

@@ -56,7 +56,7 @@ namespace OppoCraft
 
         public void MoveHandler()
         {
-            this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speed));
+            this.location = Vector2.Add(this.location, Vector2.Multiply(this.delta, this.unit.speedReal));
             this.unit.location.setVector2(this.location);
         }
 

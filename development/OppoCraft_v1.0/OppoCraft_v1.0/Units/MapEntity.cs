@@ -6,7 +6,7 @@ using testClient;
 
 namespace OppoCraft
 {
-    public abstract class MapEntity
+    public class MapEntity
     {
         public Game1 theGame;
         public WorldCoords size = new WorldCoords(40, 40);

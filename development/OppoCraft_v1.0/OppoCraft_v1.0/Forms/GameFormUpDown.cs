@@ -59,9 +59,11 @@ namespace OppoCraft
             if (this.value > this.max) this.value = this.max;
             if (this.value < this.min) this.value = this.min;
 
-            this.up.disabled = (this.value == this.max);
-            this.down.disabled = (this.value == this.min);
+            this.up.disabled = (this.value == this.max) || this.disabled;
+            this.down.disabled = (this.value == this.min) || this.disabled;
             this.labelValue.Text = this.value.ToString();
+
+
 
         }
 

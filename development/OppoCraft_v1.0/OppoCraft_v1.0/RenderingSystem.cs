@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace OppoCraft
 {
@@ -29,6 +30,8 @@ namespace OppoCraft
        public SmoothScroller scroller;
        public Coordinates size;
 
+       SoundEffect soundEngine;
+       SoundEffectInstance soundEngineInstance;
 
        public RenderSystem(Game1 g)
        {
@@ -81,6 +84,14 @@ namespace OppoCraft
            this.primRect70 = this.theGame.Content.Load<Texture2D>("Prim_Rect70");
            this.primCircle = this.theGame.Content.Load<Texture2D>("Prim_Circle");
            this.primCircle100 = this.theGame.Content.Load<Texture2D>("Prim_Circle100");
+
+
+           // Sound
+           soundEngine = this.theGame.Content.Load<SoundEffect>("Sounds\\background");
+           soundEngineInstance = soundEngine.CreateInstance();
+           soundEngineInstance.Volume = 1f;
+           soundEngineInstance.IsLooped = true;
+           soundEngineInstance.Play();
 
            this.font = this.theGame.Content.Load<SpriteFont>("myFont");
            this.fontSmall = this.theGame.Content.Load<SpriteFont>("smallFont");

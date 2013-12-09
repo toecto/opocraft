@@ -28,7 +28,7 @@ namespace OppoCraft
             if (this.status == Status.Ready)
             {
                 this.status = Status.Search;
-                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Knight", "Archer", "Lumberjack" }));
+                this.unit.task.Add(new TaskFindTarget(new string[] { "Knight", "Archer", "Lumberjack" }));
             }
 
 
@@ -46,7 +46,7 @@ namespace OppoCraft
                 {
                     if (this.cooldown <= 0)
                     {
-                        this.cooldown = this.unit.attackSpeed;
+                        this.cooldown = this.unit.attackSpeedReal;
                         OppoMessage msg;
 
                         msg = new OppoMessage(OppoMessageType.CreateEntity);

@@ -25,6 +25,8 @@ namespace OppoCraft
         //Cells, Map, and Coordinate Properties
         public WorldCoords cellSize;
         public WorldCoords worldMapSize;
+        public WorldCoords myBase;
+        public WorldCoords enemyBase;
         public Grid theGrid;
         public PathFinder pathFinder;
 
@@ -50,6 +52,8 @@ namespace OppoCraft
 
         public string loadMap;
 
+        public UserPoints userPoints;
+
 
         //Testing properties
         public int myFirstUnit;
@@ -61,10 +65,13 @@ namespace OppoCraft
         public UnitDataLoader unitDataLoader;
 
         public static Random rnd = new Random();
+
+        public Dictionary<string, MapEntity> zones;
         
 
         public Game1(NetworkModule net, int cid, int enemyCid,string map)
         {
+            this.zones = new Dictionary<string, MapEntity>();
             this.debugger = new Debugger(this);
             this.loadMap = map;
             this.cid = cid;
@@ -85,7 +92,8 @@ namespace OppoCraft
 
             //this.worldMapSize = new WorldCoords(40*20, 40*20); // set back to 10240/10240
 
-
+            this.userPoints = new UserPoints();
+            this.userPoints.points = 2000;
             this.userInput = new UserInputSystem(this);
             this.render = new RenderSystem(this);
             this.graphContent = new GraphContentManager(this);
@@ -127,6 +135,56 @@ namespace OppoCraft
             this.forms.Add(new UnitDescription());
             this.map.Add(new Background());
             this.forms.Add(new MiniMap());
+            this.forms.Add(new EntityScoreBar());
+
+
+
+            /*Making zones****/
+            MapEntity zone;
+            if (this.loadMap != null)
+            {
+                zone = new MapEntity();
+                zone.size = new WorldCoords(1400, 1400);
+                zone.location = new WorldCoords(60, 60);
+                this.zones.Add("mybase", zone);
+
+                zone = new MapEntity();
+                zone.size = new WorldCoords(1400, 1400);
+                zone.location = new WorldCoords(this.worldMapSize.X - zone.size.X - 60, this.worldMapSize.Y - zone.size.Y - 60);
+                this.zones.Add("enemybase", zone);
+
+                this.myBase = new WorldCoords(40 * 10 + 20, 40 * 15 + 20);
+                this.enemyBase = new WorldCoords(this.worldMapSize.X - 40 * 15 + 20, this.worldMapSize.Y - 40 * 15 + 20);
+            }
+            else
+            {
+                zone = new MapEntity();
+                zone.size = new WorldCoords(1400, 1400);
+                zone.location = new WorldCoords(60, 60);
+                this.zones.Add("enemybase", zone);
+
+                zone = new MapEntity();
+                zone.size = new WorldCoords(1400, 1400);
+                zone.location = new WorldCoords(this.worldMapSize.X - zone.size.X - 60, this.worldMapSize.Y - zone.size.Y - 60);
+                this.zones.Add("mybase", zone);
+
+                this.myBase = new WorldCoords(this.worldMapSize.X - 40 * 15 + 20, this.worldMapSize.Y - 40 * 15 + 20);
+                this.enemyBase = new WorldCoords(40 * 10 + 20, 40 * 15 + 20);
+            }
+
+
+            zone = new MapEntity();
+            zone.size = new WorldCoords(1400, 1400);
+            zone.location = new WorldCoords(3400, 200);
+            this.zones.Add("topforest", zone);
+            zone = new MapEntity();
+            zone.size = new WorldCoords(1400, 1400);
+            zone.location = new WorldCoords(1900, 1900);
+            this.zones.Add("centerforest", zone);
+            zone = new MapEntity();
+            zone.size = new WorldCoords(1400, 1400);
+            zone.location = new WorldCoords(200, 3400);
+            this.zones.Add("bottomforest", zone);
 
 
             if(this.loadMap!=null)
@@ -150,138 +208,204 @@ namespace OppoCraft
             //this.theGrid.fillRectValues(new GridCoords(1, 7), new GridCoords(10, 1), -1);
 
 
-            Random rnd = new Random();
+            
             OppoMessage msg;
             int tmp;
+
+            /*Towers*************************/
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40 * 30 + 20;
+            msg["y"] = 40 * 15 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40 * 10 + 20;
+            msg["y"] = 40 * 35 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 35 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 13 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 15 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 33 + 20;
+            msg.Text["type"] = "Tower";
+            this.AddCommand(msg);
+
+
+            //*Environment"****************************************************/
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = 0;
+            msg["x"] = 100;
+            msg["y"] = 100;
+            msg["width"] = 100;
+            msg["height"] = 100;
+            msg.Text["class"] = "EntityEnvironment";
+            EntityEnvironment env = new EntityEnvironment(this, msg);
+            this.map.Add(env); // create localy
+            
+
+            EntityForest forest;
+            
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"]= this.CreateUID();
+            msg["ownercid"] = 0;
+            msg["x"] = 200;
+            msg["y"] = 3400;
+            msg.Text["class"] = "EntityForest";
+            forest = new EntityForest(this, msg);
+            this.map.Add(forest); // create localy
+
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = 0;
+            msg["x"] = 1900;
+            msg["y"] = 1900;
+            msg.Text["class"] = "EntityForest";
+            forest = new EntityForest(this, msg);
+            this.map.Add(forest); // create localy
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = 0;
+            msg["x"] = 3400;
+            msg["y"] = 200;
+            msg.Text["class"] = "EntityForest";
+            forest = new EntityForest(this, msg);
+            this.map.Add(forest); // create localy
+
+            this.map.applyChanges();
+                      
+
+
+
+
+            /*Castles******************************************************/
 
 
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
             msg["ownercid"] = this.cid;
-            msg["x"] = 40*30+20;
-            msg["y"] = 40 * 30 + 20;
+            msg["x"] = 40 * 5 + 20;
+            msg["y"] = 40 * 10 + 20;
             msg.Text["type"] = "Castle";
             msg.Text["class"] = "UnitCastle";
-            this.AddCommand(msg);
-
-
-            
-            msg = new OppoMessage(OppoMessageType.CreateEntity);
-            msg["uid"] = this.CreateUID();
-            msg["x"] = 100;
-            msg["y"] = 100; 
-            msg.Text["class"] = "EntityEnvironment";
-            this.AddCommand(msg);
-
-            
-            msg = new OppoMessage(OppoMessageType.CreateEntity);
-            msg["uid"]= this.CreateUID();
-            msg["x"] = 200;
-            msg["y"] = 3400;
-            msg.Text["class"] = "EntityForest";
-            this.AddCommand(msg);
-            
-            msg = new OppoMessage(OppoMessageType.CreateEntity);
-            msg["uid"] = this.CreateUID();
-            msg["x"] = 1900;
-            msg["y"] = 1900;
-            msg.Text["class"] = "EntityForest";
+            msg.Text["unittype"] = "Archer";
+            msg.Text["targets"] = "Archer";
+            msg.Text["name"] = "Archer Castle";
+            msg.Text["zone"] = "centerforest";
+            msg["speed"] = 15;
+            msg["attack"] = 40;
+            msg["attackspeed"] = 20;
+            msg["attackrange"] = 10;
+            msg["forcecreate"] = 1;
             this.AddCommand(msg);
 
             msg = new OppoMessage(OppoMessageType.CreateEntity);
             msg["uid"] = this.CreateUID();
-            msg["x"] = 3400;
-            msg["y"] = 200;
-            msg.Text["class"] = "EntityForest";
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40 * 5 + 20;
+            msg["y"] = 40 * 20 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            msg.Text["unittype"] = "Knight";
+            msg.Text["targets"] = "Knight";
+            msg.Text["name"] = "Knight Castle";
+            msg.Text["zone"] = "centerforest";
+            msg["speed"] = 10;
+            msg["attack"] = 10;
+            msg["attackspeed"] = 60;
+            msg["forcecreate"] = 1;
             this.AddCommand(msg);
 
-            
-            for (int i = 0; i < 50; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.enemyCid;
-                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Knight";
-                this.AddCommand(msg);
-            }
-            for (int i = 0; i < 50; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.cid;
-                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Knight";
-                this.AddCommand(msg);
-            }
-            
-            for (int i = 0; i < 50; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.enemyCid;
-                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Lumberjack";
-                this.AddCommand(msg);
-            }
-            for (int i = 0; i < 50; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.cid;
-                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Lumberjack";
-                this.AddCommand(msg);
-            }
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.cid;
+            msg["x"] = 40 * 15 + 20;
+            msg["y"] = 40 * 10 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            msg.Text["unittype"] = "Lumberjack";
+            msg.Text["targets"] = "Tree";
+            msg.Text["name"] = "Lumberjack Castle";
+            msg.Text["zone"] = "bottomforest";
+            msg["attack"] = 20;
+            msg["speed"] = 12;
+            msg["forcecreate"] = 1;
+            this.AddCommand(msg);
 
-            for (int i = 0; i < 50; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.enemyCid;
-                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Archer";
-                this.AddCommand(msg);
-            }
-            for (int i = 0; i < 50; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.cid;
-                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
-                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
-                msg.Text["type"] = "Archer";
-                this.AddCommand(msg);
-            }
-            /**/
-            for (int i = 0; i < 10; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.enemyCid;
-                msg["x"] = 40 * rnd.Next(5, this.theGrid.gridSize.X - 5) + 20;
-                msg["y"] = 40 * rnd.Next(5, this.theGrid.gridSize.Y - 5) + 20;
-                msg.Text["type"] = "Tower";
-                this.AddCommand(msg);
-            }
+            /******************************************************/
 
-            for (int i = 0; i < 10; i++)
-            {
-                msg = new OppoMessage(OppoMessageType.CreateEntity);
-                msg["uid"] = this.CreateUID();
-                msg["ownercid"] = this.cid;
-                msg["x"] = 40 * rnd.Next(5, this.theGrid.gridSize.X - 5) + 20;
-                msg["y"] = 40 * rnd.Next(5, this.theGrid.gridSize.Y - 5) + 20;
-                msg.Text["type"] = "Tower";
-                this.AddCommand(msg);
-            }
-            /**/
-            
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 20 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 7 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            msg.Text["unittype"] = "Lumberjack";
+            msg.Text["targets"] = "Tree";
+            msg.Text["name"] = "Lumberjack Castle";
+            msg.Text["zone"] = "topforest";
+            msg["attack"] = 20;
+            msg["speed"] = 12;
+            msg["forcecreate"] = 1;
+            this.AddCommand(msg);
+
+    
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 7 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 20 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            msg.Text["unittype"] = "Knight";
+            msg.Text["targets"] = "Knight";
+            msg.Text["name"] = "Knight Castle";
+            msg.Text["zone"] = "centerforest";
+            msg["speed"] = 10;
+            msg["attack"] = 10;
+            msg["attackspeed"] = 60;
+            msg["forcecreate"] = 1;
+            this.AddCommand(msg);
+
+            msg = new OppoMessage(OppoMessageType.CreateEntity);
+            msg["uid"] = this.CreateUID();
+            msg["ownercid"] = this.enemyCid;
+            msg["x"] = this.worldMapSize.X - 40 * 7 + 20;
+            msg["y"] = this.worldMapSize.Y - 40 * 7 + 20;
+            msg.Text["type"] = "Castle";
+            msg.Text["class"] = "UnitCastle";
+            msg.Text["unittype"] = "Archer";
+            msg.Text["targets"] = "Archer";
+            msg.Text["name"] = "Archer Castle";
+            msg.Text["zone"] = "centerforest";
+            msg["speed"] = 15;
+            msg["attack"] = 40;
+            msg["attackspeed"] = 20;
+            msg["attackrange"] = 10;
+            msg["forcecreate"] = 1;
+            this.AddCommand(msg);
+
+
         }
 
         
@@ -320,6 +444,16 @@ namespace OppoCraft
             {
                 this.render.ToggleFullScreen();
             }
+            if (this.userInput.isKeyPressed(Keys.F8))
+            {
+                this.userPoints.add(10000);
+            }            
+            if (this.userInput.isKeyPressed(Keys.F7))
+            {
+                this.SpamUnits();
+            }
+
+            
 
             // TODO: Add your update logic here
 
@@ -333,12 +467,10 @@ namespace OppoCraft
             messageHandler.Tick();
             if (this.running)
             {
-                this.map.Tick();
-                this.map.applyChanges();
                 this.forms.Tick();
                 this.forms.applyChanges();
-
-            
+                this.map.Tick();
+                this.map.applyChanges();
             }
 
             if (!this.network.Flush())
@@ -361,6 +493,75 @@ namespace OppoCraft
         {
             //msg["cid"] = this.cid;
             this.network.Send(msg);
+        }
+
+        public void SpamUnits(int mountOfeach=10)
+        {
+            OppoMessage msg;
+
+            for (int i = 0; i < mountOfeach; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Knight";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < mountOfeach; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Knight";
+                this.AddCommand(msg);
+            }
+
+            for (int i = 0; i < mountOfeach; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Lumberjack";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < mountOfeach; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Lumberjack";
+                this.AddCommand(msg);
+            }
+
+            for (int i = 0; i < mountOfeach; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.enemyCid;
+                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Archer";
+                this.AddCommand(msg);
+            }
+            for (int i = 0; i < mountOfeach; i++)
+            {
+                msg = new OppoMessage(OppoMessageType.CreateEntity);
+                msg["uid"] = this.CreateUID();
+                msg["ownercid"] = this.cid;
+                msg["x"] = 40 * rnd.Next(2, this.theGrid.gridSize.X - 2) + 20;
+                msg["y"] = 40 * rnd.Next(2, this.theGrid.gridSize.Y - 2) + 20;
+                msg.Text["type"] = "Archer";
+                this.AddCommand(msg);
+            }
+        
         }
 
 

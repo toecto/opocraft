@@ -22,11 +22,19 @@ namespace OppoCraft
         {
             this.onScreen = true;
 
-            this.theGame.unitSelector.enabled = false;
+            
             
             this.close.location.X = this.size.X - this.close.size.X;
             this.close.location.Y = 0;
             this.close.onClick += closeForm;
+
+            foreach (MapEntity item in this.theGame.forms.entities.Values)
+            {
+                if (item is GameForm && item!=this)
+                {
+                    this.theGame.forms.Remove(item);
+                }
+            }
         }
 
         public void closeForm(GameFormControl obj, Coordinates mouse)
@@ -37,14 +45,18 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            WorldCoords mouse = new WorldCoords(0, 0);
-            mouse.setVector2(theGame.userInput.mousePosition);
-            
             if (this.theGame.userInput.mouseClicked)
             {
-                this.onClickEvent(mouse);
+                WorldCoords mouse = new WorldCoords(0, 0);
+                mouse.setVector2(theGame.userInput.mousePosition);
+                if (mouse.isIn(this.ScreenPosition(), this.size))
+                {
+                    this.onClickEvent(mouse);
+                    this.theGame.userInput.mouseClicked = false;
+                }
             }
             base.Tick();
+            
         }
 
         public override void Render(RenderSystem render)
@@ -56,7 +68,6 @@ namespace OppoCraft
 
         public override void onFinish()
         {
-            this.theGame.unitSelector.enabled = true;
             this.onScreen = false;
         }
 

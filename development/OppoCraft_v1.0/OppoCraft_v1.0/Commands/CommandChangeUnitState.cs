@@ -38,7 +38,13 @@ namespace OppoCraft
             }
             if (this.message.ContainsKey("addhp"))
             {
-                this.unit.currHP += this.message["addhp"];
+                int hp = this.message["addhp"];
+                if (hp > 0)
+                    this.unit.currHP += hp;
+                else
+                {
+                    this.unit.currHP += hp - hp * this.unit.armour / 100;
+                }
             } 
             
             if (this.message.Text.ContainsKey("status"))
@@ -49,8 +55,6 @@ namespace OppoCraft
             {
                 this.unit.direction = (Unit.Direction)this.message["direction"];
             }
-            
-
         }
     }
 }

@@ -27,7 +27,7 @@ namespace OppoCraft
             OppoMessage msg = new OppoMessage(OppoMessageType.FlyToEntity);
             msg["target"] = this.settings["target"];
             this.task.Add(new CommandFlyToEntity(msg));
-            this.speed = 5;
+            this.speedReal = 5;
         }
 
         public override void onStart()

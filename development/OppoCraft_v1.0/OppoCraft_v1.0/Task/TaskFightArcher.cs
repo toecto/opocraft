@@ -25,6 +25,7 @@ namespace OppoCraft
         {
             if (!target.alive)
             {
+                this.unit.theGame.userPoints.add(30);
                 if (this.going!=null)
                     this.unit.task.Remove(typeof(TaskGoTo));
                 //this.unit.task.setShared("IgnoreUnits", new List<int>(8));
@@ -44,7 +45,7 @@ namespace OppoCraft
 
                 if (this.cooldown <= 0)
                 {
-                    this.cooldown = this.unit.attackSpeed;
+                    this.cooldown = this.unit.attackSpeedReal;
                     OppoMessage msg;
 
                     msg = new OppoMessage(OppoMessageType.CreateEntity);
@@ -95,7 +96,7 @@ namespace OppoCraft
             if (!this.unit.task.checkShared("IgnoreUnits"))
                 this.unit.task.setShared("IgnoreUnits", new List<int>(8));
             this.ignore = this.unit.task.getShared<List<int>>("IgnoreUnits");
-            this.cooldown = Game1.rnd.Next(0,this.unit.attackSpeed);
+            this.cooldown = Game1.rnd.Next(0,5);
             this.range = this.unit.attackRange+this.target.sizeGrid.X-1;
             this.rangeSqr = this.range * this.range;
         }

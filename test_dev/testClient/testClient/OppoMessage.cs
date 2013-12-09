@@ -24,6 +24,7 @@ namespace testClient
         CreateDecale,
         TreeGrow,
         FlyToEntity,
+        Winner,
 
     };
 

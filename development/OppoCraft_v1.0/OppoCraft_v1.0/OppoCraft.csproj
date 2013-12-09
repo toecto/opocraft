@@ -142,7 +142,9 @@
     <Compile Include="Animation\UnitAnimation.cs" />
     <Compile Include="Castle\CastleForm.cs" />
     <Compile Include="Castle\TaskCastleDriver.cs" />
+    <Compile Include="Castle\TaskCastleSettingsForm.cs" />
     <Compile Include="Castle\UnitCastle.cs" />
+    <Compile Include="Castle\WinnerForm.cs" />
     <Compile Include="Commands\CommandChangeUnitState.cs" />
     <Compile Include="Commands\CommandFlyToEntity.cs" />
     <Compile Include="Commands\CommandTreeGrow.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="Forms\GameFormButton.cs" />
     <Compile Include="Forms\GameFormRadioButton.cs" />
     <Compile Include="Forms\GameFormRadioGroup.cs" />
+    <Compile Include="Forms\GameFormToggleButton.cs" />
     <Compile Include="Forms\GameFormUpDown.cs" />
     <Compile Include="SmoothScroller.cs" />
     <Compile Include="Task\TaskArcherDriver.cs" />
@@ -166,7 +169,6 @@
     <Compile Include="Task\TaskKnightDriver.cs" />
     <Compile Include="Task\TaskLumberjackDriver.cs" />
     <Compile Include="Task\TaskMortality.cs" />
-    <Compile Include="Task\TaskObstacleDriver.cs" />
     <Compile Include="Task\TaskPatrol.cs" />
     <Compile Include="Task\TaskPatrolArea.cs" />
     <Compile Include="Task\TaskShellDriver.cs" />
@@ -175,7 +177,9 @@
     <Compile Include="Units\Background.cs" />
     <Compile Include="Units\EntityEnvironment.cs" />
     <Compile Include="Units\EntityFactory.cs" />
+    <Compile Include="Units\EntityScoreBar.cs" />
     <Compile Include="Units\UnitDescription.cs" />
+    <Compile Include="Units\UnitObstacle.cs" />
     <Compile Include="Units\UnitSelector.cs" />
     <Compile Include="Units\UnitShell.cs" />
     <Compile Include="Units\GameMapLoader.cs" />
@@ -213,6 +217,7 @@
     <Compile Include="Units\EntityForest.cs" />
     <Compile Include="Units\UnitDataLoader.cs" />
     <Compile Include="UserInputSystem.cs" />
+    <Compile Include="UserPoints.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

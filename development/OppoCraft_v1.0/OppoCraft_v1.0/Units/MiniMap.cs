@@ -31,30 +31,23 @@ namespace OppoCraft
             
             render.Draw(render.primRect50, new Rectangle((int)frameStart.X, (int)frameStart.Y+shiftToBottom, (int)frameSize.X, (int)frameSize.Y), new Rectangle(0, 0, 40, 24), Microsoft.Xna.Framework.Color.BlueViolet);
 
-            foreach (KeyValuePair<int, MapEntity> item in this.theGame.map.entities)
+            foreach (Unit unit in this.theGame.map.units)
             {
-                if (item.Value.GetType() == typeof(Unit))
+                if (unit.animation == null) continue;
+                position = new Vector2(unit.location.X * sizeX / this.theGame.worldMapSize.X-1, unit.location.Y * sizeY / this.theGame.worldMapSize.Y + shiftToBottom-1);
+                if (unit.isMy)
+                    render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Blue);
+                else
                 {
-                    Unit unit=(Unit)item.Value;
-                    if (unit.animation == null) continue;
-                    position = new Vector2(unit.location.X * sizeX / this.theGame.worldMapSize.X-1, unit.location.Y * sizeY / this.theGame.worldMapSize.Y + shiftToBottom-1);
-                    if (unit.cid == this.theGame.cid)
-                        render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Blue);
-                    else
+                    if (unit.cid == 0)
                     {
-                        if (unit.cid == 0)
-                        {
-                            if (unit.type == "Tree")
-                                render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.GreenYellow);
-                            else
-                                render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Gray);
-                        }
+                        if (unit.type == "Tree")
+                            render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.GreenYellow);
                         else
-                            render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Red);
-
-
+                            render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Gray);
                     }
-                    
+                    else
+                        render.Draw(render.primDot, position, dot, Microsoft.Xna.Framework.Color.Red);
                 }
             }
         }

@@ -25,14 +25,23 @@ namespace OppoCraft
                     + "Type: "+unit.type +"\n"
                     + "Group: "+unit.group+"\n"
                     + "HP: " + unit.currHP+"/" +unit.maxHP+ "\n"
+                    + "Attack: " + unit.damage + "\n"
+                    + "Attack speed: " + unit.attackSpeed + "\n"
+                    + "Attack range: " + unit.attackRange + "\n"
+                    + "View range: " + unit.viewRange + "\n"
+                    + "Speed: " + unit.speed + "\n"
+                    + "Armour: " + unit.armour + "\n"
                     ;
                 
-
+                /*
                 foreach (KeyValuePair<Type, Task> item in unit.task.getTasks())
                 {
                     text += item.Value.GetType().ToString() + "\n";
 
-                }
+                }*/
+
+
+
                 render.DrawText(text, new Vector2(shiftLeft+20, shiftTop+20));
 
             }
