@@ -25,7 +25,7 @@ namespace OppoCraft
 "Rock2", 
 "Rock3", 
 "Rock4", 
-"Rock5 ", 
+"Rock5", 
 "Ruins1", 
 "Ruins2", 
 "Ruins3", 
@@ -51,6 +51,7 @@ namespace OppoCraft
                 msg["x"] = treePosition.X + this.location.X;
                 msg["y"] = treePosition.Y + this.location.Y;
                 msg.Text["type"] = objects[Game1.rnd.Next(0,objects.Count())];
+                msg.Text["class"] = "UnitObstacle";
                 this.theGame.AddCommand(msg);
             }
         }

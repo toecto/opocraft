@@ -8,7 +8,7 @@ namespace OppoCraft
 {
     class TaskFindTarget : Task
     {
-        List<string> type;
+        string[] type;
         bool anySide;
         List<int> ignore;
         int cooldown = 10;
@@ -16,7 +16,7 @@ namespace OppoCraft
         int ignoreCooldown = 10;
         int currentignoreCooldown = 0;
 
-        public TaskFindTarget(List<string> type, bool anySide=false)
+        public TaskFindTarget(string[] type, bool anySide=false)
         {
             this.type = type;
             this.anySide = anySide;

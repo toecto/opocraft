@@ -23,12 +23,13 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            base.Tick();
             if (disabled)
             {
                 this.color = Color.Red;
                 return;
             }
+
+            base.Tick();
 
             if (this.parentForm.theGame.userInput.mouseCoordinates.isIn(this.ScreenPosition(), this.size))
                 this.color = Color.LightGreen;

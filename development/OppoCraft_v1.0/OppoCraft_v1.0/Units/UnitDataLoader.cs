@@ -32,7 +32,6 @@ namespace OppoCraft
                     if (animationFileDataTable.Rows.Count > 0)
                         unitData["Path"] = animationFileDataTable.Rows[0].Field<string>("Path");
                 }
-
                 this.unitData.Add(unitData.Field<string>("UnitType"), unitData);
             }
         }
@@ -41,7 +40,11 @@ namespace OppoCraft
 
         public bool Load(Unit theUnit, string type)
         {
-            if (!this.unitData.ContainsKey(type)) return false;
+            if (!this.unitData.ContainsKey(type))
+            {
+                return false;
+            }
+            
             DataRow unitData = this.unitData[type];
 
             if (unitData["Path"] != DBNull.Value)

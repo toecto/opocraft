@@ -23,21 +23,37 @@ namespace OppoCraft
         public void Add(GameFormCheckButton button)
         {
             button.location.Y = this.list.Count * 25;
-            button.onClick += this.handleSelect;
+            button.onChange += this.handleChange;
             this.controls.Add(button);
             this.list.Add(button);
             this.size.Y = button.location.Y+25;
         }
 
-        public void handleSelect(GameFormControl obj, WorldCoords mouse)
+        public void handleChange(GameFormControl obj)
         {
-            ((GameFormCheckButton)obj).selected = !((GameFormCheckButton)obj).selected;
             this.selected.Clear();
             Debug.WriteLine("handleSelect");
             foreach (GameFormCheckButton item in this.list)
             {
                 if (item.selected)
                     this.selected.Add(item);
+            }
+        }
+
+        public void setSelectedValue(Object val)
+        {
+            
+            foreach (GameFormCheckButton item in this.list)
+            {
+                if (item.value.Equals(val))
+                    item.selected = true;
+            }
+        }
+        public void setSelectedValues(Object[] vals)
+        {
+            foreach (Object item in vals)
+            {
+                this.setSelectedValue(item);
             }
         }
 

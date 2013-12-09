@@ -46,6 +46,7 @@ namespace OppoCraft
                     }
                 case OppoMessageType.CreateEntity:
                     {
+                        if(this.theGame.map.units.Count<1000)
                         if (this.theGame.theGrid.getGridValue(new WorldCoords(msg["x"], msg["y"])) >= 0 || msg.ContainsKey("forcecreate")) 
                             this.theGame.map.Add(EntityFactory.Create(this.theGame,msg));
                         break;
@@ -102,6 +103,14 @@ namespace OppoCraft
                         break;
                     }
 
+                case OppoMessageType.Winner:
+                    {
+
+                        this.theGame.forms.Add(new WinnerForm(msg["winner"] == this.theGame.cid));
+                        this.theGame.forms.applyChanges();
+                        this.theGame.running = false;
+                        break;
+                    }
             }
         }
 

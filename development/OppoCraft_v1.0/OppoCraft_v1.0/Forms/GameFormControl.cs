@@ -54,7 +54,7 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            if (this.disabled) return;
+            //if (this.disabled) return;
             foreach (GameFormControl item in this.controls)
             {
                 item.Tick();
@@ -70,13 +70,20 @@ namespace OppoCraft
             //render.Draw(render.primRect50, this.ScreenPosition().getRectangle(this.size), render.primRect50.Bounds, Color.IndianRed);
         }
 
-
+        public GameFormControl findByTag(string tag)
+        {
+            foreach (GameFormControl item in this.controls)
+            {
+                if (item.tag==tag)
+                    return item;
+            }
+            return null;
+        }
 
         public delegate void onClickHandler(GameFormControl GameFormControl, WorldCoords mouse);
-
         public event onClickHandler onClick;
 
-        public void onClickEvent(WorldCoords mouse)
+        public virtual void onClickEvent(WorldCoords mouse)
         {
             if (this.disabled) return;
 
@@ -92,5 +99,20 @@ namespace OppoCraft
             if (this.onClick != null)
                 this.onClick(this, mouse);
         }
+
+        
+        public delegate void onChangeHandler(GameFormControl GameFormControl);
+        public event onChangeHandler onChange;
+
+        public virtual void onChangeEvent()
+        {
+            if (this.disabled) return;
+
+            if (this.onChange != null)
+                this.onChange(this);
+        }
+
+
+
     }
 }

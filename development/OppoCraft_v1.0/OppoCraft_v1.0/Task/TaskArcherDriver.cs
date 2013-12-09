@@ -15,7 +15,6 @@ namespace OppoCraft
             Fighting
 
         }
-
         Status status;
 
         public override bool Tick()
@@ -23,7 +22,18 @@ namespace OppoCraft
             if (this.status == Status.Main)
             {
                 this.status = Status.Searching;
-                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Knight", "Archer", "Tower", "Castle" }));
+                if (this.unit.settings.Text.ContainsKey("targets"))
+                    this.unit.task.Add(new TaskFindTarget(this.unit.settings.Text["targets"].Split(',')));
+
+                if (this.unit.settings.Text.ContainsKey("zone"))
+                {
+                    if (this.unit.theGame.zones.ContainsKey(this.unit.settings.Text["zone"]))
+                    {
+                        MapEntity zone = this.unit.theGame.zones[this.unit.settings.Text["zone"]];
+                        this.unit.task.Add(new TaskPatrolArea(zone.location, zone.size));
+                    }
+                }
+                else
                 this.unit.task.Add(new TaskPatrolArea(new WorldCoords(0, 0), this.unit.theGame.worldMapSize));
                 return true;
             }
@@ -41,6 +51,15 @@ namespace OppoCraft
                 this.status = Status.Main;
                 return true;
             }
+
+            if (this.unit.task.checkShared("reset"))
+            {
+                this.unit.task.removeShared<bool>("reset");
+                this.status = Status.Main;
+                return true;
+            }
+
+
             return true;
         }
 

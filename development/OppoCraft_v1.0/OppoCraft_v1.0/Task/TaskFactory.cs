@@ -24,9 +24,6 @@ namespace OppoCraft
                 case "Tree":
                     return new TaskTreeDriver();
 
-                case "Obstacle":
-                    return new TaskObstacleDriver();
-
                 case "Shell":
                     return new TaskShellDriver();
 

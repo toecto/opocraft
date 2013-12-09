@@ -22,26 +22,34 @@ namespace OppoCraft
         public void Add(GameFormRadioButton button)
         {
             button.location.Y = this.list.Count * 25;
-            button.onClick += this.handleSelect;
+            button.onChange += this.handleChange;
             this.controls.Add(button);
             this.list.Add(button);
             this.size.Y = button.location.Y+25;
         }
 
-        public void handleSelect(GameFormControl obj, WorldCoords mouse)
+        public void handleChange(GameFormControl obj)
         {
+            GameFormRadioButton button=(GameFormRadioButton)obj;
+            if (button.selected == false) return;
+            this.selected = button;
 
-            this.selected = (GameFormRadioButton)obj;
-
-            Debug.WriteLine("handleSelect"+ this.selected.text);
+            //Debug.WriteLine("handleSelect"+ this.selected.text);
             foreach (GameFormRadioButton item in this.list)
             {
                 if (item != this.selected)
                     item.selected = false;
-                else
-                    item.selected = true;
             }
         }
 
+
+        internal void setSelectedValue(Object val)
+        {
+            foreach (GameFormRadioButton item in this.list)
+            {
+                if (item.value.Equals(val))
+                    item.selected = true;
+            }
+        }
     }
 }

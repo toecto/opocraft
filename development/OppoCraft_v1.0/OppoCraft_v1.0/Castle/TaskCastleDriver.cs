@@ -2,33 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
+using testClient;
 
 namespace OppoCraft
 {
     class TaskCastleDriver: Task
     {
-
-        CastleForm form=null;
+        UnitCastle castle;
 
         public override bool Tick()
         {
-            if (form == null)
-            {
-                if (this.unit.theGame.unitSelector.selected == this.unit)
-                    this.unit.theGame.forms.Add(this.form = new CastleForm((UnitCastle)this.unit));
-            }
-            else
-            { 
-                if (this.unit.theGame.unitSelector.selected != this.unit)
-                   this.form = null;
-            }
+            if (this.castle.factorySettings["training"] == 0) return true;
+            this.castle.trainingCooldown--;
+            if (this.castle.trainingCooldown > 0) return true;
+            this.castle.trainingCooldown = this.castle.trainingSpeedReal;
+
+            this.castle.tryToSpawn();
 
             return true;
         }
 
         public override void onStart()
         {
-            //this.unit.task.Add(new TaskTowerDriver());
+            this.castle = (UnitCastle)this.unit;
+            this.unit.task.Add(new TaskTowerDriver());
+            this.unit.task.Add(new TaskCastleSettingsForm());
         }
+
+
     }
 }

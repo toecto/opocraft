@@ -35,15 +35,17 @@ namespace OppoCraft
         public int currHP = 100;
         public bool alive { get { return this.currHP > 0; } }
         public int maxHP = 100;
-        public float speed = 1f;
-        public int damage = 5;
-        public int armour = 1;
-        public int attackSpeed = 30;
-        public int attackRange = 1;
-        public int viewRange = 15;
+        public float speedReal = 2f;//  real
+        public int speed { get { return (int)(this.speedReal * 10); } set { this.speedReal = value / 10f; } }
+        public int damage = 5; // real
+        public int armour = 0; // procent of damage
+        public int attackSpeedReal=60;
+        public int attackSpeed { get { return 3600 / this.attackSpeedReal; } set { this.attackSpeedReal = 3600 / value; } } // per minute 3600/attackSpeed
+        public int attackRange = 1; // cells
+        public int viewRange = 15;  //cells
         public int viewRangeSqr { get {return this.viewRange*this.viewRange;}}
         public int attackRangeSqr { get { return this.attackRange * this.attackRange; } }
-        public double speedSqr { get { return this.speed * this.speed; } }
+        public double speedSqr { get { return this.speedReal * this.speedReal; } }
 
         public bool isObstacle;
 
@@ -62,9 +64,13 @@ namespace OppoCraft
             if (this.type == "Archer")
             {
                 this.attackRange = 10;
-                this.attackSpeed = 100;
+                this.attackSpeedReal = 100;
+                this.damage = 10;
             }
             this.theGame.unitDataLoader.Load(this, this.type);
+            this.applyFactorySettings(this.settings);
+            if (!this.settings.Text.ContainsKey("targets"))
+                this.settings.Text["targets"] = "Knight,Archer,Lumberjack,Tower,Castle";
         }
 
         
@@ -135,24 +141,19 @@ namespace OppoCraft
             this.theGame.AddCommand(msg);
         }
 
-        /*
-        public void setStatus(string name, string value)
+        public void applyFactorySettings(OppoMessage settings)
         {
-            this.status.Remove(name);
-            this.status.Add(name, value);
+            if (settings.ContainsKey("factory"))
+            {
+                this.damage = settings["attack"];
+                this.attackSpeed = settings["attackspeed"];
+                this.attackRange = settings["attackrange"];
+                this.viewRange = settings["viewrange"];
+                this.speed = settings["speed"];
+                this.armour = settings["armour"];
+                this.viewRange = settings["viewrange"];
+            }
         }
-
-        public void removeStatus(string name)
-        {
-            this.status.Remove(name);
-        }
-        public string getStatus(string name)
-        {
-            if (!this.status.ContainsKey(name)) return "";
-            return this.status[name];
-        }
-        */
-
         
     }
 }
