@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;  
+using System.Diagnostics;
 
 namespace OppoCraft
 {
@@ -27,7 +27,7 @@ namespace OppoCraft
             this.value = val;
             this.min = min;
             this.max = max;
-            this.size = new WorldCoords(20, 40);  
+            this.size = new WorldCoords(20, 40);
             this.init();
         }
 

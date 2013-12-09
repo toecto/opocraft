@@ -12,14 +12,12 @@ namespace OppoCraft
     public class AnimationFile
     {
         public Texture2D texture;
-        public int width;
-        public int height;
+        public Coordinates size;
         public int id;
         public AnimationFile(Texture2D texture, int width, int height, int id)
         {
             this.texture=texture;
-            this.width = width;
-            this.height = height;
+            this.size = new Coordinates(width, height);
             this.id = id;
         }
 

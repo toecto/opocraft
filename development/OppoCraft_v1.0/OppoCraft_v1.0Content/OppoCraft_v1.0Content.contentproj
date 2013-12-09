@@ -64,8 +64,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Prim_Rect.png">
-      <Name>Prim_Rect</Name>
+    <Compile Include="Prim_Rect50.png">
+      <Name>Prim_Rect50</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -104,11 +104,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Animations\BlueBuildings.png">
-      <Name>BlueBuildings</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Animations\Grass.png">
       <Name>Grass</Name>
       <Importer>TextureImporter</Importer>
@@ -116,11 +111,6 @@
     </Compile>
     <Compile Include="Animations\RedArcher.png">
       <Name>RedArcher</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Animations\RedBuildings.png">
-      <Name>RedBuildings</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -174,6 +164,49 @@
     </Compile>
     <Compile Include="Animations\RedLumberjack.png">
       <Name>RedLumberjack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animations\BlueCastle.png">
+      <Name>BlueCastle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\BlueTower.png">
+      <Name>BlueTower</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\RedCastle.png">
+      <Name>RedCastle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Animations\RedTower.png">
+      <Name>RedTower</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Prim_Circle.png">
+      <Name>Prim_Circle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Prim_Rect70.png">
+      <Name>Prim_Rect70</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Prim_Circle100.png">
+      <Name>Prim_Circle100</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

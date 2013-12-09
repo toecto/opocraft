@@ -23,7 +23,7 @@ namespace OppoCraft
             if (this.status == Status.Main)
             {
                 this.status = Status.Searching;
-                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Knight", "Archer" }));
+                this.unit.task.Add(new TaskFindTarget(new List<string>(4) { "Knight", "Archer", "Tower", "Castle" }));
                 this.unit.task.Add(new TaskPatrolArea(new WorldCoords(0, 0), this.unit.theGame.worldMapSize));
                 return true;
             }

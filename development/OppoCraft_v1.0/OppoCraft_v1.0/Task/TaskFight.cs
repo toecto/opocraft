@@ -14,7 +14,8 @@ namespace OppoCraft
         GridCoords going=null;
         int cooldown;
         List<int> ignore;
-
+        int range;
+        int rangeSqr;
 
         public TaskFight(Unit target)
         {
@@ -31,7 +32,7 @@ namespace OppoCraft
                 return false;
             }
 
-            if ((int)this.unit.locationGrid.DistanceSqr(this.target.locationGrid.X, this.target.locationGrid.Y) <= this.unit.attackRangeSqr)
+            if ((int)this.unit.locationGrid.DistanceSqr(this.target.locationGrid.X, this.target.locationGrid.Y) <= this.rangeSqr)
             {
 
                 if (this.going != null)
@@ -66,14 +67,14 @@ namespace OppoCraft
             {
                 if (!this.unit.task.isRunning(typeof(TaskGoTo)) || !this.target.locationGrid.Equals(this.going))
                 {
-                    WorldPath path = this.unit.theGame.pathFinder.GetPath(this.unit.location, target.location, this.unit.attackRange);
+                    WorldPath path = this.unit.theGame.pathFinder.GetPath(this.unit.location, target.location, this.range);
                     if (path == null)
                     {
                         this.ignore.Add(target.uid);
                         return false;
                     }
 
-                    this.unit.task.Add(new TaskGoTo(path,target.location,this.unit.attackRange));
+                    this.unit.task.Add(new TaskGoTo(path, target.location, this.range));
                     this.going = target.locationGrid;
                 }
             }
@@ -86,6 +87,8 @@ namespace OppoCraft
             if (!this.unit.task.checkShared("IgnoreUnits"))
                 this.unit.task.setShared("IgnoreUnits", new List<int>(8));
             this.ignore = this.unit.task.getShared<List<int>>("IgnoreUnits");
+            this.range = this.unit.attackRange + this.target.sizeGrid.X - 1;
+            this.rangeSqr = this.range * this.range;
         }
 
         public override void onFinish()

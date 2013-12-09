@@ -35,10 +35,7 @@ namespace OppoCraft
 
             if (this.SetValues(origGrid, destGrid, range))
                 result = this.SetPath(origGrid, destGrid);
-            if (result!=null && result.Count < 2 && origGrid.Distance(destGrid) > 20)
-            {
-                ;
-            }
+
             return result;
         }
 
@@ -53,6 +50,7 @@ namespace OppoCraft
             cellQue.AddFirst(orig);
             int pathValLength = this.pathValues.GetLength(0);
             int x, y, i, newValue, currentValue;
+            bool isCornerAround = false;
             while (cellQue.Count > 0)
             {
                 newCellQue=new GridPath();
@@ -61,6 +59,8 @@ namespace OppoCraft
                     currentValue = this.theGrid.gridValues[gridCoords.X, gridCoords.Y];
                     for (i = 0; i < pathValLength; i++)
                     {
+                        if (isCornerAround && this.pathValues[i, 2] == 3)
+                            break;
                         x = gridCoords.X + this.pathValues[i, 0];
                         y = gridCoords.Y + this.pathValues[i, 1];
                         newValue = currentValue + this.pathValues[i, 2];
@@ -70,11 +70,18 @@ namespace OppoCraft
                             this.theGrid.gridValues[x, y] = newValue;
                             newCellQue.AddLast(new GridCoords(x, y));
 
-                            if((int)dest.DistanceSqr(x,y)<=range)
+                            if ((int)dest.DistanceSqr(x, y) <= range)
                             {
                                 dest.X = x;
                                 dest.Y = y;
                                 return true;
+                            }
+                        }
+                        else
+                        {
+                            if (this.pathValues[i, 2] == 2)
+                            {
+                                isCornerAround = true;
                             }
                         }
                     }

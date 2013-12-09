@@ -21,7 +21,6 @@ namespace OppoCraft
         public StartForm()
         {
             InitializeComponent();
-
         }
 
         private void ConnectBtn_Click(object sender, EventArgs e)
@@ -29,8 +28,9 @@ namespace OppoCraft
             if (Program.network != null)
             {
                 Program.network.Stop();
+                Program.network = null;
                 ConnectionStatus.Text = "Disconnected";
-                ConnectBtn.Text = "Connet";
+                ConnectBtn.Text = "Connect";
             }
             else
             {
@@ -39,7 +39,7 @@ namespace OppoCraft
                 if (!this.connect(IPAddr.Text))
                     ConnectionStatus.Text = "Failed to connect";
                 else
-                    ConnectBtn.Text = "Disconnet";
+                    ConnectBtn.Text = "Disconnect";
             }
         }
 
@@ -54,19 +54,19 @@ namespace OppoCraft
             }
             else
             { 
-            if (Program.network != null)
-            {
-                Program.network.Stop();
-                ConnectionStatus.Text = "Disconnected";
-            }
-            Program.server = new OppoServer("0.0.0.0", 8898);
-            if (Program.server.Start())
-            {
-                this.serverStatus.Text = "Started";
-                StartSrvBtn.Text = "Stop Server";
-            }
-            else
-                this.serverStatus.Text = "Failed to start";
+                if (Program.network != null)
+                {
+                    Program.network.Stop();
+                    ConnectionStatus.Text = "Disconnected";
+                }
+                Program.server = new OppoServer("0.0.0.0", 8898);
+                if (Program.server.Start())
+                {
+                    this.serverStatus.Text = "Started";
+                    StartSrvBtn.Text = "Stop Server";
+                }
+                else
+                    this.serverStatus.Text = "Failed to start";
             }
             
         }

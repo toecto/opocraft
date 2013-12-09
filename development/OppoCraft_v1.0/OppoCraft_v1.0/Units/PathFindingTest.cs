@@ -10,7 +10,7 @@ namespace OppoCraft
     {
         WorldPath aPath=null;
         GridCoords lastSpot = new GridCoords(0,0);
-
+        bool enabled = false;
         public override void onStart()
         {
             this.location.Y = this.theGame.worldMapSize.Y;//to render last
@@ -18,9 +18,10 @@ namespace OppoCraft
 
         public override void Tick()
         {
-            MouseState mouseState = Mouse.GetState();
+            if (this.theGame.userInput.isKeyPressed(Keys.F9)) enabled = !enabled;
+            if (!enabled) return;
 
-            WorldCoords x=this.theGame.render.getWorldCoords(new Vector2(mouseState.X, mouseState.Y));
+            WorldCoords x=this.theGame.render.getWorldCoords(this.theGame.userInput.mousePosition);
             GridCoords test = this.theGame.theGrid.getGridCoords(x);
             if (!test.Equals(this.lastSpot))
             {
@@ -39,11 +40,12 @@ namespace OppoCraft
                     //u.task.Add(new TaskGoTo(destination));
                 }
             }
-            //Debug.WriteLine(mouseState.X + ", " + mouseState.Y);
+            
         }
 
         public override void Render(RenderSystem render)
         {
+            if (!enabled) return;
             int maxValue = 1;
             for (int x = 0; x < this.theGame.theGrid.gridValues.GetLength(0); x++)
             {
@@ -66,13 +68,13 @@ namespace OppoCraft
                     color = this.theGame.theGrid.getGridValue(new GridCoords(x, y)) * 255 / maxValue;
                     if (color < 0)
                     {
-                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
+                        render.Draw(this.theGame.render.primRect50, position, new Rectangle(0, 0, 40, 24), new Color(255, 0, 0));
                         render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
                     }
                     else
                     {
-                        render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
-                        render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
+                        //render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 0, color));
+                        //render.DrawText(this.theGame.theGrid.getGridValue(new GridCoords(x, y)).ToString(), position);
                     }
                 }
             }
@@ -82,9 +84,9 @@ namespace OppoCraft
                 foreach (WorldCoords coords in this.aPath)
                 {
                     Vector2 position = this.theGame.render.getScreenCoords(coords);
-                    position.X -= this.theGame.render.primRect.Width / 2;
-                    position.Y -= this.theGame.render.primRect.Height / 2; 
-                    render.Draw(this.theGame.render.primRect, position, new Rectangle(0, 0, 40, 24), new Color(0, 255, 0));
+                    position.X -= this.theGame.render.primRect50.Width / 2;
+                    position.Y -= this.theGame.render.primRect50.Height / 2; 
+                    render.Draw(this.theGame.render.primRect50, position, new Rectangle(0, 0, 40, 24), new Color(0, 255, 0));
                 }
             }
             else

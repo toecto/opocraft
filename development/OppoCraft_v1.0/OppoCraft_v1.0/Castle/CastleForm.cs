@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace OppoCraft
 {
-    public class CastleForm : GameForm
+    public class CastleForm: GameForm
     {
         UnitCastle castle;
 
@@ -30,7 +30,7 @@ namespace OppoCraft
             this.controls.Add(zones);
             zones.location.X = 200;
             zones.location.Y = 75;
-            zones.tag = "zone";
+            zones.tag="zone";
             zones.Add(new GameFormRadioButton("Top Forest", "Top Forest"));
             zones.Add(new GameFormRadioButton("Center Forest", "Center Forest"));
             zones.Add(new GameFormRadioButton("Bottom Forest", "Bottom Forest"));
@@ -52,7 +52,7 @@ namespace OppoCraft
             targets.Add(new GameFormCheckButton("Lumberjacks", "Lumberjacks"));
             targets.Add(new GameFormCheckButton("Towers", "Towers"));
             targets.Add(new GameFormCheckButton("Castle", "Castle"));
-            targets.tag = "targets";
+            targets.tag="targets";
             label = new GameFormLabel("Stats:");
             label.location.X = 20;
             topShift = label.location.Y = 75 + 5 * 25;
@@ -65,12 +65,12 @@ namespace OppoCraft
             topShift += 25;
             label = new GameFormLabel("Attack:");
             label.location.X = 20;
-            label.location.Y = topShift;
+            label.location.Y = topShift; 
             this.controls.Add(label);
             upDown = new GameFormUpDown(0, 0, 10);
             upDown.tag = "attack";
             upDown.location.X = 130;
-            upDown.location.Y = topShift - 7;
+            upDown.location.Y = topShift-7;
             this.controls.Add(upDown);
 
             label = new GameFormLabel("Attack range:");
@@ -90,9 +90,9 @@ namespace OppoCraft
             label.location.Y = topShift;
             this.controls.Add(label);
             upDown = new GameFormUpDown(0, 0, 10);
-            upDown.tag = "attackspeed";
+            upDown.tag="attackspeed";
             upDown.location.X = 130;
-            upDown.location.Y = topShift - 7;
+            upDown.location.Y = topShift-7;
             this.controls.Add(upDown);
 
             label = new GameFormLabel("Training speed:");
@@ -112,9 +112,9 @@ namespace OppoCraft
             label.location.Y = topShift;
             this.controls.Add(label);
             upDown = new GameFormUpDown(0, 0, 10);
-            upDown.tag = "speed";
+            upDown.tag="speed";
             upDown.location.X = 130;
-            upDown.location.Y = topShift - 7;
+            upDown.location.Y = topShift-7;
             this.controls.Add(upDown);
 
             label = new GameFormLabel("Total: 100");
@@ -147,7 +147,7 @@ namespace OppoCraft
             label.location.Y = topShift;
             this.controls.Add(label);
             upDown = new GameFormUpDown(0, 0, 10);
-            upDown.tag = "viewrange";
+            upDown.tag="viewrange";
             upDown.location.X = 130;
             upDown.location.Y = topShift - 10;
             this.controls.Add(upDown);
@@ -175,9 +175,9 @@ namespace OppoCraft
                         string[] strs = ((GameFormCheckGroup)item).getSelectedValues<string>();
                         this.castle.factorySettings.Text[item.tag] = String.Join(",", strs);
                     }
-
+                        
                     if (item.GetType() == typeof(GameFormRadioGroup))
-                        if (((GameFormRadioGroup)item).selected != null)
+                        if (((GameFormRadioGroup)item).selected!=null)
                             this.castle.factorySettings.Text[item.tag] = (string)((GameFormRadioGroup)item).selected.value;
                 }
             }

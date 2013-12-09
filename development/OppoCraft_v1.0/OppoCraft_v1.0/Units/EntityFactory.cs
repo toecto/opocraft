@@ -29,9 +29,10 @@ namespace OppoCraft
                     return new EntityEnvironment(theGame, message);
 
                 case "UnitShell":
-                    {
-                        return new UnitShell(theGame, message);
-                    }
+                    return new UnitShell(theGame, message);
+
+                case "UnitCastle":
+                    return new UnitCastle(theGame,message);
 
                     
             }
